@@ -1,0 +1,201 @@
+/*
+ * commands.js
+ * 
+ * Lógica dos comandos do terminal.
+ * Você não precisa mexer aqui a menos que queira adicionar comandos novos.
+ */
+
+// Estado de navegação
+let currentPath = [];
+
+/**
+ * Retorna o diretório atual baseado no path
+ */
+function getCurrentDir() {
+    let dir = getFilesystem();
+    for (const folder of currentPath) {
+        dir = dir[folder];
+    }
+    return dir;
+}
+
+/**
+ * Retorna o prompt formatado (ex: guest@portfolio:~/projects$)
+ */
+function getPrompt() {
+    const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
+    return `[[;#87d75f;]]:[[;#5fafff;]${path}]$ `;
+}
+
+/**
+ * Mensagens do sistema por idioma
+ */
+const MESSAGES = {
+    pt: {
+        help: [
+            "",
+            "Comandos disponíveis:",
+            "---------------------",
+            "  ls            Lista arquivos e pastas do diretório atual",
+            "  cd <pasta>    Entra em uma pasta (cd .. para voltar)",
+            "  cat <arq>     Exibe o conteúdo de um arquivo",
+            "  clear         Limpa a tela",
+            "  help          Mostra esta mensagem",
+            "  whoami        Quem sou eu?",
+            "  pwd           Mostra o diretório atual",
+            "  lang <pt|en>  Altera o idioma (português/inglês)",
+            "",
+            "Dica: comece com 'ls' para ver o que tem aqui!",
+            ""
+        ].join("\n"),
+        cmdNotFound: (cmd) => `'${cmd}': comando não encontrado. Digite 'help' para ajuda.`,
+        cdNotDir: (t) => `cd: '${t}' não é um diretório`,
+        cdNotFound: (t) => `cd: '${t}' não encontrado`,
+        catUsage: "cat: informe o nome do arquivo",
+        catIsDir: (f) => `cat: '${f}' é um diretório`,
+        catNotFound: (f) => `cat: '${f}' não encontrado`,
+        langUsage: "Uso: lang <pt|en>\nIdioma atual: ",
+        langChanged: (l) => `Idioma alterado para: ${l === "pt" ? "Português" : "English"}`,
+        langInvalid: "Idioma inválido. Use: lang pt  ou  lang en"
+    },
+    en: {
+        help: [
+            "",
+            "Available commands:",
+            "-------------------",
+            "  ls            List files and folders in current directory",
+            "  cd <folder>   Enter a folder (cd .. to go back)",
+            "  cat <file>    Display file contents",
+            "  clear         Clear the screen",
+            "  help          Show this message",
+            "  whoami        Who am I?",
+            "  pwd           Show current directory",
+            "  lang <pt|en>  Change language (portuguese/english)",
+            "",
+            "Tip: start with 'ls' to explore!",
+            ""
+        ].join("\n"),
+        cmdNotFound: (cmd) => `'${cmd}': command not found. Type 'help' for help.`,
+        cdNotDir: (t) => `cd: '${t}' is not a directory`,
+        cdNotFound: (t) => `cd: '${t}' not found`,
+        catUsage: "cat: specify a file name",
+        catIsDir: (f) => `cat: '${f}' is a directory`,
+        catNotFound: (f) => `cat: '${f}' not found`,
+        langUsage: "Usage: lang <pt|en>\nCurrent language: ",
+        langChanged: (l) => `Language changed to: ${l === "pt" ? "Português" : "English"}`,
+        langInvalid: "Invalid language. Use: lang pt  or  lang en"
+    }
+};
+
+/**
+ * Retorna as mensagens do idioma ativo
+ */
+function msg() {
+    return MESSAGES[currentLang];
+}
+
+/**
+ * Comandos disponíveis
+ */
+const COMMANDS = {
+
+    help: function(term) {
+        term.echo(msg().help);
+    },
+
+    ls: function(term) {
+        const dir = getCurrentDir();
+        const entries = Object.keys(dir);
+        let output = "";
+
+        for (const entry of entries) {
+            if (typeof dir[entry] === "object") {
+                // Pasta - exibe em azul com /
+                output += `[[;#5fafff;]${entry}/]  `;
+            } else {
+                // Arquivo - exibe em branco
+                output += `${entry}  `;
+            }
+        }
+        term.echo(output);
+    },
+
+    cd: function(term, args) {
+        if (!args || args.length === 0 || args[0] === "~") {
+            currentPath = [];
+            term.set_prompt(getPrompt());
+            return;
+        }
+
+        const target = args[0];
+
+        if (target === "..") {
+            if (currentPath.length > 0) {
+                currentPath.pop();
+            }
+            term.set_prompt(getPrompt());
+            return;
+        }
+
+        const dir = getCurrentDir();
+
+        if (dir[target] && typeof dir[target] === "object") {
+            currentPath.push(target);
+            term.set_prompt(getPrompt());
+        } else if (dir[target]) {
+            term.error(msg().cdNotDir(target));
+        } else {
+            term.error(msg().cdNotFound(target));
+        }
+    },
+
+    cat: function(term, args) {
+        if (!args || args.length === 0) {
+            term.error(msg().catUsage);
+            return;
+        }
+
+        const filename = args[0];
+        const dir = getCurrentDir();
+
+        if (dir[filename] && typeof dir[filename] === "string") {
+            term.echo(dir[filename]);
+        } else if (dir[filename] && typeof dir[filename] === "object") {
+            term.error(msg().catIsDir(filename));
+        } else {
+            term.error(msg().catNotFound(filename));
+        }
+    },
+
+    pwd: function(term) {
+        const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
+        term.echo(path);
+    },
+
+    whoami: function(term) {
+        term.echo("guest");
+    },
+
+    clear: function(term) {
+        term.clear();
+    },
+
+    lang: function(term, args) {
+        if (!args || args.length === 0) {
+            const current = currentLang === "pt" ? "Português" : "English";
+            term.echo(msg().langUsage + current);
+            return;
+        }
+
+        const lang = args[0].toLowerCase();
+
+        if (lang === "pt" || lang === "en") {
+            currentPath = [];
+            currentLang = lang;
+            term.set_prompt(getPrompt());
+            term.echo(msg().langChanged(lang));
+        } else {
+            term.error(msg().langInvalid);
+        }
+    }
+};
