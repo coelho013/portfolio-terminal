@@ -274,14 +274,14 @@ jobs:
 
 1. [x] Registrar dominio
 2. [x] Criar repositorio no GitHub
-3. [ ] Montar estrutura basica do projeto (index.html + jQuery Terminal)
-4. [ ] Definir filesystem virtual (pastas e conteudo)
-5. [ ] Implementar comandos (ls, cd, cat, help, clear)
-6. [ ] Configurar bucket S3 + CloudFront + ACM + Route 53
-7. [ ] Configurar GitHub Secrets
-8. [ ] Criar workflow do GitHub Actions
-9. [ ] Primeiro deploy e validar HTTPS + dominio customizado
-10. [ ] Iterar no conteudo e visual
+3. [x] Montar estrutura basica do projeto (index.html + jQuery Terminal)
+4. [x] Definir filesystem virtual (pastas e conteudo)
+5. [x] Implementar comandos (ls, cd, cat, help, clear)
+6. [x] Configurar bucket S3 + CloudFront + ACM + Route 53
+7. [x] Configurar GitHub Secrets
+8. [x] Criar workflow do GitHub Actions
+9. [x] Primeiro deploy e validar HTTPS + dominio customizado
+10. [x] Iterar no conteudo e visual
 
 ---
 
