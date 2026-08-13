@@ -25,7 +25,8 @@ jobs:
             --delete \
             --exclude ".git/*" \
             --exclude ".github/*" \
-            --exclude "README.md"
+            --exclude ".idea/*" \
+            --exclude "*.md"
 
       - name: Invalidate CloudFront cache
         run: |
