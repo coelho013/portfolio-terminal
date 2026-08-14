@@ -171,7 +171,7 @@ const COMMANDS = {
         const dir = getCurrentDir();
 
         if (dir[filename] && typeof dir[filename] === "string") {
-            term.typing('echo', 10, dir[filename]);
+            term.echo(dir[filename]);
         } else if (dir[filename] && typeof dir[filename] === "object") {
             term.error(msg().catIsDir(filename));
         } else {
