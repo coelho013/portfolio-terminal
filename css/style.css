@@ -16,10 +16,9 @@ html, body {
 
 /* Customizacoes opcionais - descomente se quiser alterar */
 
-/*
+
 .terminal {
-    --color: #00ff00;
     --background: #0a0a0a;
-    --font: 1em 'Ubuntu Mono', 'Fira Code', monospace;
+    --size: 1.6;
 }
-*/
+
