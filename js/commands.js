@@ -7,6 +7,7 @@
 
 // Estado de navegação
 let currentPath = [];
+let currentTheme = "dark";
 
 /**
  * Retorna o diretório atual baseado no path
@@ -23,8 +24,10 @@ function getCurrentDir() {
  * Retorna o prompt formatado (ex: guest@portfolio:~/projects$)
  */
 function getPrompt() {
+    const color = currentTheme == "dark" ? "#5fafff" : "#005faf"
+
     const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
-    return `[[;#87d75f;]]:[[;#5fafff;]${path}]$ `;
+    return `:[[;${color};]${path}]$ `;
 }
 
 /**
@@ -44,6 +47,7 @@ const MESSAGES = {
             "  whoami        Quem sou eu?",
             "  pwd           Mostra o diretório atual",
             "  lang <pt|en>  Altera o idioma (português/inglês)",
+            "  theme <dark|light>  Altera o tema",
             "",
             "Dica: comece com 'ls' para ver o que tem aqui!",
             ""
@@ -56,7 +60,10 @@ const MESSAGES = {
         catNotFound: (f) => `cat: '${f}' não encontrado`,
         langUsage: "Uso: lang <pt|en>\nIdioma atual: ",
         langChanged: (l) => `Idioma alterado para: ${l === "pt" ? "Português" : "English"}`,
-        langInvalid: "Idioma inválido. Use: lang pt  ou  lang en"
+        langInvalid: "Idioma inválido. Use: lang pt  ou  lang en",
+        themeUsage: "Uso: Tema <dark|light>\nTema atual: ",
+        themeChanged: (t) => `Tema alterado para: ${t}`,
+        themeInvalid: "Tema inválido. Use: theme dark  ou  theme light"
     },
     en: {
         help: [
@@ -71,6 +78,7 @@ const MESSAGES = {
             "  whoami        Who am I?",
             "  pwd           Show current directory",
             "  lang <pt|en>  Change language (portuguese/english)",
+            "  theme <dark|light>  Change theme",
             "",
             "Tip: start with 'ls' to explore!",
             ""
@@ -83,7 +91,10 @@ const MESSAGES = {
         catNotFound: (f) => `cat: '${f}' not found`,
         langUsage: "Usage: lang <pt|en>\nCurrent language: ",
         langChanged: (l) => `Language changed to: ${l === "pt" ? "Português" : "English"}`,
-        langInvalid: "Invalid language. Use: lang pt  or  lang en"
+        langInvalid: "Invalid language. Use: lang pt  or  lang en",
+        themeUsage: "Usage: theme <dark|light>\nCurrent theme: ",
+        themeChanged: (t) => `Theme changed to: ${t}`,
+        themeInvalid: "Invalid theme. Use: theme dark  or  theme light"
     }
 };
 
@@ -106,12 +117,13 @@ const COMMANDS = {
     ls: function(term) {
         const dir = getCurrentDir();
         const entries = Object.keys(dir);
+        const color = currentTheme == "dark" ? "#5fafff" : "#005faf"
         let output = "";
 
         for (const entry of entries) {
             if (typeof dir[entry] === "object") {
                 // Pasta - exibe em azul com /
-                output += `[[;#5fafff;]${entry}/]  `;
+                output += `[[;${color};]${entry}/]  `;
             } else {
                 // Arquivo - exibe em branco
                 output += `${entry}  `;
@@ -196,6 +208,31 @@ const COMMANDS = {
             term.echo(msg().langChanged(lang));
         } else {
             term.error(msg().langInvalid);
+        }
+    },
+
+    theme: function(term, args) {
+        if (!args || args.length === 0) {
+            term.echo(msg().themeUsage + currentTheme)
+            return;
+        }
+
+        const themes = {
+            light: { color: "#657b83", background: "#fdf6e3"},
+            dark:  { color: "#aaa", background: "#000"}
+        }
+
+        const theme = args[0].toLowerCase();
+
+        const selected = themes[theme]
+        if (selected) {
+            document.documentElement.style.setProperty("--color", selected.color);
+            document.documentElement.style.setProperty("--background", selected.background)
+            currentTheme = theme
+            term.set_prompt(getPrompt());
+            term.echo(msg().themeChanged(theme))
+        } else {
+            term.error(msg().themeInvalid)
         }
     }
 };
