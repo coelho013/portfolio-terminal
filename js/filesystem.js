@@ -34,7 +34,7 @@ const FILESYSTEM_PT = {
             "Localidade: Joinville/SC - Brasil"
         ].join("\n"),
 
-        "formacao.txt": [
+        "education.txt": [
             "╔══════════════════════════════════════════════════╗",
             "║          Formação Acadêmica                      ║",
             "╚══════════════════════════════════════════════════╝",
@@ -50,7 +50,7 @@ const FILESYSTEM_PT = {
             "  - Inglês (profissional)"
         ].join("\n"),
 
-        "experiencia.txt": [
+        "experience.txt": [
             "╔══════════════════════════════════════════════════╗",
             "║          Experiência Profissional                ║",
             "╚══════════════════════════════════════════════════╝",
@@ -185,7 +185,7 @@ const FILESYSTEM_EN = {
     "skills": {
         "cloud.txt": [
             "╔══════════════════════════════════════════════════╗",
-            "║          Cloud & DevOps                          ║",
+            "║          Cloud                                   ║",
             "╚══════════════════════════════════════════════════╝",
             "",
             "AWS",

@@ -39,14 +39,14 @@ const MESSAGES = {
             "",
             "Comandos disponíveis:",
             "---------------------",
-            "  ls            Lista arquivos e pastas do diretório atual",
-            "  cd <pasta>    Entra em uma pasta (cd .. para voltar)",
-            "  cat <arq>     Exibe o conteúdo de um arquivo",
-            "  clear         Limpa a tela",
-            "  help          Mostra esta mensagem",
-            "  whoami        Quem sou eu?",
-            "  pwd           Mostra o diretório atual",
-            "  lang <pt|en>  Altera o idioma (português/inglês)",
+            "  ls                  Lista arquivos e pastas do diretório atual",
+            "  cd <pasta>          Entra em uma pasta (cd .. para voltar)",
+            "  cat <arq>           Exibe o conteúdo de um arquivo",
+            "  clear               Limpa a tela",
+            "  help                Mostra esta mensagem",
+            "  whoami              Quem sou eu?",
+            "  pwd                 Mostra o diretório atual",
+            "  lang <pt|en>        Altera o idioma (português/inglês)",
             "  theme <dark|light>  Altera o tema",
             "",
             "Dica: comece com 'ls' para ver o que tem aqui!",
@@ -70,14 +70,14 @@ const MESSAGES = {
             "",
             "Available commands:",
             "-------------------",
-            "  ls            List files and folders in current directory",
-            "  cd <folder>   Enter a folder (cd .. to go back)",
-            "  cat <file>    Display file contents",
-            "  clear         Clear the screen",
-            "  help          Show this message",
-            "  whoami        Who am I?",
-            "  pwd           Show current directory",
-            "  lang <pt|en>  Change language (portuguese/english)",
+            "  ls                  List files and folders in current directory",
+            "  cd <folder>         Enter a folder (cd .. to go back)",
+            "  cat <file>          Display file contents",
+            "  clear               Clear the screen",
+            "  help                Show this message",
+            "  whoami              Who am I?",
+            "  pwd                 Show current directory",
+            "  lang <pt|en>        Change language (portuguese/english)",
             "  theme <dark|light>  Change theme",
             "",
             "Tip: start with 'ls' to explore!",
@@ -171,7 +171,7 @@ const COMMANDS = {
         const dir = getCurrentDir();
 
         if (dir[filename] && typeof dir[filename] === "string") {
-            term.echo(dir[filename]);
+            term.typing('echo', 10, dir[filename]);
         } else if (dir[filename] && typeof dir[filename] === "object") {
             term.error(msg().catIsDir(filename));
         } else {
