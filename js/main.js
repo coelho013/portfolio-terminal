@@ -6,7 +6,16 @@
  */
 
 $(function() {
+
     // Mensagens de boas-vindas por idioma
+    const LOADING = [
+            "",
+            "  [ OK ] Loading Gabriel Coelgo Ramos...",
+            "  [ OK ] Initializing portfolio...",
+            "  [ OK ] Loading projects...",
+            "  [ OK ] Loading skills...",
+            "  [ OK ] Establishing connection...",
+    ].join("\n")
     const WELCOME = {
         pt: [
             "",
@@ -59,7 +68,7 @@ $(function() {
         }
     }, {
         // Configurações do terminal
-        greetings: WELCOME[currentLang],
+        greetings: false,
         prompt: getPrompt(),
         name: "portfolio",
         height: "100%",
@@ -69,6 +78,29 @@ $(function() {
             const entries = Object.keys(dir);
             const commands = Object.keys(COMMANDS);
             callback([...commands, ...entries]);
+        },
+
+        onInit: function(term) {
+            const delay = (ms) => new Promise((resolve) => setTimeout(resolve,ms));
+            const lines = LOADING.split("\n")
+
+            async function runLoadingEachLines() {
+                term.set_prompt('')
+
+                for (const l of lines) {
+                    term.echo(l)
+                    await delay(500)
+                }
+            }
+
+            runLoadingEachLines().then(() => {
+                term.echo(WELCOME[currentLang])
+                term.set_prompt(getPrompt())
+                
+                setInterval(function() {
+                    term.set_prompt(getPrompt())
+                }, 1000)
+            })   
         }
     });
 
