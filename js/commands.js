@@ -9,6 +9,9 @@
 let currentPath = [];
 let currentTheme = "dark";
 
+const BLUE_COLOR = "#005faf"
+const BROWN_COLOR = '#ffa726';
+
 /**
  * Retorna o diretório atual baseado no path
  */
@@ -20,14 +23,36 @@ function getCurrentDir() {
     return dir;
 }
 
+function getBrowser() {
+    const ua = navigator.userAgent;
+
+    if (ua.includes("Edg/")) return "Edge";
+    if (ua.includes("OPR/") || ua.includes("Opera")) return "Opera";
+    if (ua.includes("Chrome/") && !ua.includes("Edg/")) return "Chrome";
+    if (ua.includes("Firefox/")) return "Mozilla Firefox";
+    if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
+    if (ua.includes("MSIE") || ua.includes("Trident/")) return "Explorer";
+
+    return "Any";
+}
+
 /**
  * Retorna o prompt formatado (ex: guest@portfolio:~/projects$)
  */
 function getPrompt() {
-    const color = currentTheme == "dark" ? "#5fafff" : "#005faf"
+   
+    const clienteData = new Intl.DateTimeFormat('sv-SE', {
+        dateStyle: 'short',
+        timeStyle: 'medium'
+    }).format(new Date());
 
     const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
-    return `:[[;${color};]${path}]$ `;
+
+    const styledPath = `[[[;${BLUE_COLOR};]${path}]]`;
+    const styledDate = `[[[;${BROWN_COLOR};]${clienteData}]]`;
+    const clientBrowser = `[[[;${BROWN_COLOR};]${getBrowser()}]]`
+
+    return `┌${styledDate}${clientBrowser}${styledPath}\n└$ `;
 }
 
 /**
@@ -46,6 +71,7 @@ const MESSAGES = {
             "  help                Mostra esta mensagem",
             "  whoami              Quem sou eu?",
             "  pwd                 Mostra o diretório atual",
+            "  exit                Fecha janela",
             "  lang <pt|en>        Altera o idioma (português/inglês)",
             "  theme <dark|light>  Altera o tema",
             "",
@@ -77,6 +103,7 @@ const MESSAGES = {
             "  help                Show this message",
             "  whoami              Who am I?",
             "  pwd                 Show current directory",
+            "  exit                Close window",
             "  lang <pt|en>        Change language (portuguese/english)",
             "  theme <dark|light>  Change theme",
             "",
@@ -117,13 +144,12 @@ const COMMANDS = {
     ls: function(term) {
         const dir = getCurrentDir();
         const entries = Object.keys(dir);
-        const color = currentTheme == "dark" ? "#5fafff" : "#005faf"
         let output = "";
 
         for (const entry of entries) {
             if (typeof dir[entry] === "object") {
                 // Pasta - exibe em azul com /
-                output += `[[;${color};]${entry}/]  `;
+                output += `[[;${BLUE_COLOR};]${entry}/]  `;
             } else {
                 // Arquivo - exibe em branco
                 output += `${entry}  `;
@@ -234,5 +260,9 @@ const COMMANDS = {
         } else {
             term.error(msg().themeInvalid)
         }
+    },
+
+    exit: function(term) {
+        window.close();
     }
 };
