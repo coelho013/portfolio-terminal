@@ -10,7 +10,7 @@ $(function() {
     // Mensagens de boas-vindas por idioma
     const LOADING = [
             "",
-            "  [ OK ] Loading Gabriel Coelgo Ramos...",
+            "  [ OK ] Loading Gabriel Coelho Ramos...",
             "  [ OK ] Initializing portfolio...",
             "  [ OK ] Loading projects...",
             "  [ OK ] Loading skills...",

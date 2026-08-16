@@ -29,7 +29,7 @@ function getBrowser() {
     if (ua.includes("Edg/")) return "Edge";
     if (ua.includes("OPR/") || ua.includes("Opera")) return "Opera";
     if (ua.includes("Chrome/") && !ua.includes("Edg/")) return "Chrome";
-    if (ua.includes("Firefox/")) return "Mozilla Firefox";
+    if (ua.includes("Firefox/")) return "Firefox";
     if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
     if (ua.includes("MSIE") || ua.includes("Trident/")) return "Explorer";
 

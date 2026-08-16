@@ -12,6 +12,10 @@
 // Idioma ativo: "pt" ou "en"
 let currentLang = "en";
 
+const currentYear = new Date().getFullYear();
+const bornYear = 2003
+let age = currentYear - bornYear;
+
 /**
  * Filesystem em Português
  */
@@ -23,15 +27,17 @@ const FILESYSTEM_PT = {
             "║          Software Engineer                       ║",
             "╚══════════════════════════════════════════════════╝",
             "",
-            "Engenheiro de Software com foco em desenvolvimento backend, cloud computing e soluções de alta disponibilidade na AWS.",
+            `Nascido em Campo Grande, MS, Brasil, com ${age} anos de idade.`,
             "",
-            "Atualmente trabalhando em uma solução de análise",
-            "de crédito e risco.",
+            "Engenheiro de Software com foco em desenvolvimento backend, cloud computing",
+            "e soluções de alta disponibilidade na AWS.",
+            "",
+            "Atualmente trabalhando em uma solução de análise de crédito e risco.",
             "",
             "Apaixonado por desenvolver soluções de alta performance e escaláveis,",
             "seguindo boas práticas de projeto e arquitetura.",
             "",
-            "Localidade: Joinville/SC - Brasil"
+            "Localidade: Joinville, SC, Brasil"
         ].join("\n"),
 
         "education.txt": [
@@ -40,10 +46,10 @@ const FILESYSTEM_PT = {
             "╚══════════════════════════════════════════════════╝",
             "",
             "Graduação",
-            "  Cursando Ciência de Dados na Universidade Federal de Campo Grande/MS",
+            "  Cursando Ciência de Dados na Universidade Federal de Campo Grande, MS",
             "",
             "Certificações",
-            "  - AWS Cloud Practitioner - https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
+            "  - AWS Cloud Practitioner ╺▻ https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
             "",
             "Idiomas",
             "  - Português (nativo)",
@@ -114,9 +120,9 @@ const FILESYSTEM_PT = {
             "║          Contato                                 ║",
             "╚══════════════════════════════════════════════════╝",
             "",
-            "GitHub    https://github.com/Coelho013",
-            "LinkedIn  https://linkedin.com/in/gabriel-coelho-ramos",
-            "Email     coelhoramos.gabriel@gmail.com",
+            "GitHub    ╺▻ https://github.com/Coelho013",
+            "LinkedIn  ╺▻ https://linkedin.com/in/gabriel-coelho-ramos",
+            "Email     ╺▻ coelhoramos.gabriel@gmail.com",
             "",
             "─────────────────────────────────────────────────",
             "Aberto a oportunidades e projetos interessantes.",
@@ -136,16 +142,17 @@ const FILESYSTEM_EN = {
             "║          Software Engineer                       ║",
             "╚══════════════════════════════════════════════════╝",
             "",
+            `Born in Campo Grande, MS, Brazil, ${age} years old.`,
+            "",
             "Software Engineer focused on backend development, cloud computing",
             "and highly available solutions on AWS.",
             "",
-            "Currently working on a credit and risk",
-            "analysis solution.",
+            "Currently working on a credit and risk analysis solution.",
             "",
             "Passionate about building high-performance and scalable solutions.",
             "Following best practices in design and architecture.",
             "",
-            "Location: Joinville/SC - Brazil"
+            "Location: Joinville, SC, Brazil"
         ].join("\n"),
 
         "education.txt": [
@@ -154,10 +161,10 @@ const FILESYSTEM_EN = {
             "╚══════════════════════════════════════════════════╝",
             "",
             "Degree",
-            "  Pursuing Data Science at Federal University of Campo Grande/MS",
+            "  Pursuing Data Science at Federal University of Campo Grande, MS",
             "",
             "Certifications",
-            "  - AWS Cloud Practitioner - https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
+            "  - AWS Cloud Practitioner ╺▻ https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
             "",
             "Languages",
             "  - Portuguese (native)",
@@ -228,9 +235,9 @@ const FILESYSTEM_EN = {
             "║          Contact                                 ║",
             "╚══════════════════════════════════════════════════╝",
             "",
-            "GitHub    https://github.com/Coelho013",
-            "LinkedIn  https://linkedin.com/in/gabriel-coelho-ramos",
-            "Email     coelhoramos.gabriel@gmail.com",
+            "GitHub    ╺▻ https://github.com/Coelho013",
+            "LinkedIn  ╺▻ https://linkedin.com/in/gabriel-coelho-ramos",
+            "Email     ╺▻ coelhoramos.gabriel@gmail.com",
             "",
             "─────────────────────────────────────────────────",
             "Open to opportunities and interesting projects.",
