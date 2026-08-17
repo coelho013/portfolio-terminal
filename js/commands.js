@@ -71,7 +71,6 @@ const MESSAGES = {
             "  help                Mostra esta mensagem",
             "  whoami              Quem sou eu?",
             "  pwd                 Mostra o diretório atual",
-            "  exit                Fecha janela",
             "  lang <pt|en>        Altera o idioma (português/inglês)",
             "  theme <dark|light>  Altera o tema",
             "",
@@ -103,7 +102,6 @@ const MESSAGES = {
             "  help                Show this message",
             "  whoami              Who am I?",
             "  pwd                 Show current directory",
-            "  exit                Close window",
             "  lang <pt|en>        Change language (portuguese/english)",
             "  theme <dark|light>  Change theme",
             "",
@@ -261,8 +259,4 @@ const COMMANDS = {
             term.error(msg().themeInvalid)
         }
     },
-
-    exit: function(term) {
-        window.close();
-    }
 };
