@@ -1,13 +1,5 @@
-/*
- * main.js
- * 
- * Inicialização do terminal.
- * Aqui o jQuery Terminal é configurado e a mensagem de boas-vindas é exibida.
- */
-
 $(function() {
 
-    // Mensagens de boas-vindas por idioma
     const LOADING = [
             "",
             "  [ OK ] Loading Gabriel Coelho Ramos...",
@@ -16,6 +8,7 @@ $(function() {
             "  [ OK ] Loading skills...",
             "  [ OK ] Establishing connection...",
     ].join("\n")
+
     const WELCOME = {
         pt: [
             "",
@@ -51,29 +44,24 @@ $(function() {
         ].join("\n")
     };
 
-    // Inicializa o terminal
     const term = $("#terminal").terminal(function(input, term) {
-        // Faz o parse do input
         const parts = input.trim().split(/\s+/);
         const command = parts[0];
         const args = parts.slice(1);
 
         if (!command) return;
 
-        // Verifica se o comando existe
         if (COMMANDS[command]) {
             COMMANDS[command](term, args);
         } else {
             term.error(msg().cmdNotFound(command));
         }
     }, {
-        // Configurações do terminal
         greetings: false,
         prompt: getPrompt(),
         name: "portfolio",
         height: "100%",
         completion: function(input, callback) {
-            // Autocomplete com Tab
             const dir = getCurrentDir();
             const entries = Object.keys(dir);
             const commands = Object.keys(COMMANDS);
@@ -104,7 +92,6 @@ $(function() {
         }
     });
 
-    // Sobrescreve o comando lang para também re-exibir o welcome
     const originalLang = COMMANDS.lang;
     COMMANDS.lang = function(t, args) {
         originalLang(t, args);

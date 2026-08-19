@@ -1,20 +1,39 @@
-/*
- * commands.js
- * 
- * Lógica dos comandos do terminal.
- * Você não precisa mexer aqui a menos que queira adicionar comandos novos.
- */
-
-// Estado de navegação
 let currentPath = [];
 let currentTheme = "dark";
 
-const BLUE_COLOR = "#005faf"
-const BROWN_COLOR = '#ffa726';
+const THEMES = {
+    dark: {
+        base: "#1e1e2e",
+        text: "#cdd6f4",
+        green: "#a6e3a1",
+        blue: "#89b4fa",
+        mauve: "#cba6f7",
+        peach: "#fab387",
+        teal: "#94e2d5",
+        surface0: "#313244",
+        overlay0: "#6c7086",
+        red: "#f38ba8",
+        yellow: "#f9e2af"
+    },
+    light: {
+        base: "#fdf6e3",
+        text: "#4c4f69",
+        green: "#40a02b",
+        blue: "#1e66f5",
+        mauve: "#8839ef",
+        peach: "#fe640b",
+        teal: "#179299",
+        surface0: "#ccd0da",
+        overlay0: "#9ca0b0",
+        red: "#d20f39",
+        yellow: "#df8e1d"
+    }
+};
 
-/**
- * Retorna o diretório atual baseado no path
- */
+function getThemeColors() {
+    return THEMES[currentTheme];
+}
+
 function getCurrentDir() {
     let dir = getFilesystem();
     for (const folder of currentPath) {
@@ -36,28 +55,18 @@ function getBrowser() {
     return "Any";
 }
 
-/**
- * Retorna o prompt formatado (ex: guest@portfolio:~/projects$)
- */
 function getPrompt() {
-   
-    const clienteData = new Intl.DateTimeFormat('sv-SE', {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-    }).format(new Date());
 
     const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
+    const c = getThemeColors();
 
-    const styledPath = `[[[;${BLUE_COLOR};]${path}]]`;
-    const styledDate = `[[[;${BROWN_COLOR};]${clienteData}]]`;
-    const clientBrowser = `[[[;${BROWN_COLOR};]${getBrowser()}]]`
+    const styledUser = `[[;${c.green};]guest@portfolio]`;
+    const styledPath = `[[;${c.blue};]${path}]`;
+    const dim = `[[;${c.overlay0};]─]`;
 
-    return `┌${styledDate}${clientBrowser}${styledPath}\n└$ `;
+    return `╭${dim} ${styledUser} ${styledPath}\n╰${dim} $ `;
 }
 
-/**
- * Mensagens do sistema por idioma
- */
 const MESSAGES = {
     pt: {
         help: [
@@ -123,16 +132,10 @@ const MESSAGES = {
     }
 };
 
-/**
- * Retorna as mensagens do idioma ativo
- */
 function msg() {
     return MESSAGES[currentLang];
 }
 
-/**
- * Comandos disponíveis
- */
 const COMMANDS = {
 
     help: function(term) {
@@ -142,14 +145,13 @@ const COMMANDS = {
     ls: function(term) {
         const dir = getCurrentDir();
         const entries = Object.keys(dir);
+        const c = getThemeColors();
         let output = "";
 
         for (const entry of entries) {
             if (typeof dir[entry] === "object") {
-                // Pasta - exibe em azul com /
-                output += `[[;${BLUE_COLOR};]${entry}/]  `;
+                output += `[[;${c.blue};]${entry}/]  `;
             } else {
-                // Arquivo - exibe em branco
                 output += `${entry}  `;
             }
         }
@@ -195,7 +197,22 @@ const COMMANDS = {
         const dir = getCurrentDir();
 
         if (dir[filename] && typeof dir[filename] === "string") {
-            term.echo(dir[filename]);
+            const content = dir[filename];
+            const lines = content.split("\n");
+            let hasLoading = content.includes("{{loading}}");
+
+            if (hasLoading) {
+                for (const line of lines) {
+                    if (line.includes("{{loading}}")) {
+                        const before = line.replace("{{loading}}", "");
+                        term.echo(before + '<span class="terminal-spinner"></span>', {raw: true});
+                    } else {
+                        term.echo(line);
+                    }
+                }
+            } else {
+                term.echo(content);
+            }
         } else if (dir[filename] && typeof dir[filename] === "object") {
             term.error(msg().catIsDir(filename));
         } else {
@@ -241,22 +258,18 @@ const COMMANDS = {
             return;
         }
 
-        const themes = {
-            light: { color: "#657b83", background: "#fdf6e3"},
-            dark:  { color: "#aaa", background: "#000"}
-        }
-
         const theme = args[0].toLowerCase();
 
-        const selected = themes[theme]
-        if (selected) {
-            document.documentElement.style.setProperty("--color", selected.color);
-            document.documentElement.style.setProperty("--background", selected.background)
-            currentTheme = theme
+        if (THEMES[theme]) {
+            const c = THEMES[theme];
+            const el = document.querySelector('.terminal');
+            el.style.setProperty("--color", c.text);
+            el.style.setProperty("--background", c.base);
+            currentTheme = theme;
             term.set_prompt(getPrompt());
-            term.echo(msg().themeChanged(theme))
+            term.echo(msg().themeChanged(theme));
         } else {
-            term.error(msg().themeInvalid)
+            term.error(msg().themeInvalid);
         }
     },
 };
