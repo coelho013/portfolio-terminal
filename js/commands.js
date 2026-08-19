@@ -1,5 +1,5 @@
 let currentPath = [];
-let currentTheme = "dark";
+let currentTheme = loadPref("theme", ["dark", "light"], "dark");
 
 const THEMES = {
     dark: {
@@ -32,6 +32,28 @@ const THEMES = {
 
 function getThemeColors() {
     return THEMES[currentTheme];
+}
+
+function applyTheme(theme) {
+    const c = THEMES[theme];
+    if (!c) return;
+
+    const el = document.querySelector('.terminal');
+    if (el) {
+        el.style.setProperty("--color", c.text);
+        el.style.setProperty("--background", c.base);
+    }
+
+    document.documentElement.style.setProperty("--app-bg", c.base);
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.setAttribute("content", c.base);
+
+    currentTheme = theme;
+}
+
+function applyLangAttribute() {
+    document.documentElement.lang = currentLang === "pt" ? "pt-BR" : "en";
 }
 
 function getCurrentDir() {
@@ -73,17 +95,17 @@ const MESSAGES = {
             "",
             "Comandos disponíveis:",
             "---------------------",
-            "  ls                  Lista arquivos e pastas do diretório atual",
-            "  cd <pasta>          Entra em uma pasta (cd .. para voltar)",
-            "  cat <arq>           Exibe o conteúdo de um arquivo",
-            "  clear               Limpa a tela",
-            "  help                Mostra esta mensagem",
-            "  whoami              Quem sou eu?",
-            "  pwd                 Mostra o diretório atual",
-            "  lang <pt|en>        Altera o idioma (português/inglês)",
-            "  theme <dark|light>  Altera o tema",
+            ...helpEntry("ls", "Lista arquivos e pastas"),
+            ...helpEntry("cd <pasta>", "Entra em uma pasta"),
+            ...helpEntry("cat <arq>", "Exibe um arquivo"),
+            ...helpEntry("clear", "Limpa a tela"),
+            ...helpEntry("help", "Mostra esta mensagem"),
+            ...helpEntry("whoami", "Quem sou eu?"),
+            ...helpEntry("pwd", "Diretório atual"),
+            ...helpEntry("lang <pt|en>", "Altera o idioma"),
+            ...helpEntry("theme <dark|light>", "Altera o tema"),
             "",
-            "Dica: comece com 'ls' para ver o que tem aqui!",
+            "Dica: 'cd ..' volta uma pasta",
             ""
         ].join("\n"),
         cmdNotFound: (cmd) => `'${cmd}': comando não encontrado. Digite 'help' para ajuda.`,
@@ -104,17 +126,17 @@ const MESSAGES = {
             "",
             "Available commands:",
             "-------------------",
-            "  ls                  List files and folders in current directory",
-            "  cd <folder>         Enter a folder (cd .. to go back)",
-            "  cat <file>          Display file contents",
-            "  clear               Clear the screen",
-            "  help                Show this message",
-            "  whoami              Who am I?",
-            "  pwd                 Show current directory",
-            "  lang <pt|en>        Change language (portuguese/english)",
-            "  theme <dark|light>  Change theme",
+            ...helpEntry("ls", "List files and folders"),
+            ...helpEntry("cd <folder>", "Enter a folder"),
+            ...helpEntry("cat <file>", "Display a file"),
+            ...helpEntry("clear", "Clear the screen"),
+            ...helpEntry("help", "Show this message"),
+            ...helpEntry("whoami", "Who am I?"),
+            ...helpEntry("pwd", "Current directory"),
+            ...helpEntry("lang <pt|en>", "Change language"),
+            ...helpEntry("theme <dark|light>", "Change theme"),
             "",
-            "Tip: start with 'ls' to explore!",
+            "Tip: 'cd ..' goes back one folder",
             ""
         ].join("\n"),
         cmdNotFound: (cmd) => `'${cmd}': command not found. Type 'help' for help.`,
@@ -139,7 +161,7 @@ function msg() {
 const COMMANDS = {
 
     help: function(term) {
-        term.echo(msg().help);
+        term.echo(fitContent(msg().help));
     },
 
     ls: function(term) {
@@ -197,7 +219,7 @@ const COMMANDS = {
         const dir = getCurrentDir();
 
         if (dir[filename] && typeof dir[filename] === "string") {
-            const content = dir[filename];
+            const content = fitContent(dir[filename]);
             const lines = content.split("\n");
             let hasLoading = content.includes("{{loading}}");
 
@@ -245,6 +267,8 @@ const COMMANDS = {
         if (lang === "pt" || lang === "en") {
             currentPath = [];
             currentLang = lang;
+            savePref("lang", lang);
+            applyLangAttribute();
             term.set_prompt(getPrompt());
             term.echo(msg().langChanged(lang));
         } else {
@@ -261,11 +285,8 @@ const COMMANDS = {
         const theme = args[0].toLowerCase();
 
         if (THEMES[theme]) {
-            const c = THEMES[theme];
-            const el = document.querySelector('.terminal');
-            el.style.setProperty("--color", c.text);
-            el.style.setProperty("--background", c.base);
-            currentTheme = theme;
+            applyTheme(theme);
+            savePref("theme", theme);
             term.set_prompt(getPrompt());
             term.echo(msg().themeChanged(theme));
         } else {

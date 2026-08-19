@@ -1,30 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
     <title>Gabriel Coelho Ramos - Terminal Portfolio</title>
-    
-    <!-- Favicon -->
+    <meta name="description" content="Interactive terminal portfolio of Gabriel Coelho Ramos, Software Engineer focused on backend development and AWS cloud. Navigate with commands like ls, cd and cat.">
+    <meta name="author" content="Gabriel Coelho Ramos">
+    <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gabriel Coelho Ramos">
+    <meta property="og:title" content="Gabriel Coelho Ramos - Terminal Portfolio">
+    <meta property="og:description" content="A portfolio you explore by typing commands. Software Engineer focused on backend development and AWS cloud.">
+    <meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN/">
+    <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Terminal window showing Gabriel Coelho Ramos portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="pt_BR">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gabriel Coelho Ramos - Terminal Portfolio">
+    <meta name="twitter:description" content="A portfolio you explore by typing commands. Software Engineer focused on backend development and AWS cloud.">
+    <meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og-image.png">
+
+    <meta name="theme-color" content="#1e1e2e">
+
     <link rel="icon" type="image/png" href="assets/favicon.png">
-
-    <!-- jQuery Terminal CSS -->
+    <link rel="preload" href="assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x/css/jquery.terminal.min.css">
-
-    <!-- Estilos customizados (minimo) -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- O terminal ocupa a pagina inteira -->
-    <div id="terminal"></div>
+    <div class="preloader visually-hidden" aria-hidden="true">x</div>
 
-    <!-- jQuery -->
+    <div id="terminal" role="log" aria-live="polite" aria-label="Interactive terminal"></div>
+
+    <div id="mobile-toolbar">
+        <div class="toolbar-chips" role="group" aria-label="Command shortcuts">
+            <button class="chip" data-cmd="ls">ls</button>
+            <button class="chip" data-cmd="cd" data-arg="1">cd</button>
+            <button class="chip" data-cmd="cd ..">cd ..</button>
+            <button class="chip" data-cmd="cat" data-arg="1">cat</button>
+            <button class="chip" data-cmd="help">help</button>
+            <button class="chip" data-cmd="clear">clear</button>
+            <button class="chip" data-cmd="lang" data-arg="1">lang</button>
+            <button class="chip" data-cmd="theme" data-arg="1">theme</button>
+        </div>
+        <div class="toolbar-input">
+            <span class="toolbar-prompt" aria-hidden="true">$</span>
+            <label class="visually-hidden" for="mobile-input">Terminal command</label>
+            <input type="text" id="mobile-input" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="type command...">
+            <button id="mobile-send" aria-label="Run command">⏎</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-
-    <!-- jQuery Terminal -->
     <script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x/js/jquery.terminal.min.js"></script>
-
-    <!-- Arquivos do projeto -->
+    <script src="js/layout.js"></script>
     <script src="js/filesystem.js"></script>
     <script src="js/commands.js"></script>
     <script src="js/main.js"></script>
