@@ -110,7 +110,6 @@ const FILESYSTEM_PT = {
       "  • Deploy contínuo com GitHub Actions",
       "  • Invalidação automática de cache no CloudFront",
       "",
-      ...contact("Código", "https://github.com/Coelho013/portfolio-terminal", 10),
       ""
     ].join("\n")
   },
@@ -290,7 +289,6 @@ const FILESYSTEM_EN = {
       "  • Continuous deployment with GitHub Actions",
       "  • Automatic CloudFront cache invalidation",
       "",
-      ...contact("Source", "https://github.com/Coelho013/portfolio-terminal", 10),
       ""
     ].join("\n")
   },
