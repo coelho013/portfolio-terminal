@@ -1,41 +1,42 @@
-let currentLang = "en";
+let currentLang = loadPref("lang", ["pt", "en"], "en");
 
 const currentYear = new Date().getFullYear();
 const bornYear = 2003
 let age = currentYear - bornYear;
 
+const CREDLY_URL = "https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url";
+
 const FILESYSTEM_PT = {
   "about": {
     "me.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Gabriel Coelho Ramos                    ║",
-      "║          Software Engineer                       ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Gabriel Coelho Ramos", "Software Engineer"),
       "",
       `Nascido em Campo Grande, MS, Brasil, com ${age} anos de idade.`,
       "",
-      "Engenheiro de Software com foco em desenvolvimento backend, cloud computing",
-      "e soluções de alta disponibilidade na AWS.",
+      ...para(
+        "Engenheiro de Software com foco em desenvolvimento backend, cloud computing",
+        "e soluções de alta disponibilidade na AWS."
+      ),
       "",
       "Atualmente trabalhando em uma solução de análise de crédito e risco.",
       "",
-      "Apaixonado por desenvolver soluções de alta performance e escaláveis,",
-      "seguindo boas práticas de projeto e arquitetura.",
+      ...para(
+        "Apaixonado por desenvolver soluções de alta performance e escaláveis,",
+        "seguindo boas práticas de projeto e arquitetura."
+      ),
       "",
       "Localidade: Joinville, SC, Brasil"
     ].join("\n"),
 
     "education.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Formação Acadêmica                      ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Formação Acadêmica"),
       "",
       "Graduação",
       "  Cursando Ciência de Dados na Universidade Federal de Campo Grande, MS",
       "",
       "Certificações",
-      "  - AWS Cloud Practitioner → https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
-      "  - AWS Solutions Architect Associate → {{loading}}",
+      ...link("AWS Cloud Practitioner", CREDLY_URL),
+      ...link("AWS Solutions Architect Associate", "{{loading}}"),
       "",
       "Idiomas",
       "  - Português (nativo)",
@@ -43,12 +44,10 @@ const FILESYSTEM_PT = {
     ].join("\n"),
 
     "experience.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Experiência Profissional                ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Experiência Profissional"),
       "",
       "Software Engineer @ Ibratan (06/2026 - Atual)",
-      "─────────────────────────────────────",
+      sep(37),
       "Solução de análise de crédito, risco e fraude",
       "",
       "  • Desenvolvimento e manutenção de políticas de crédito personalizadas",
@@ -56,7 +55,7 @@ const FILESYSTEM_PT = {
       "",
       "",
       "Software Engineer @ Hopen Data (02/2026 - 06/2026)",
-      "─────────────────────────────────────────────────────",
+      sep(53),
       "Plataforma de decisões políticas baseadas em dados públicos",
       "",
       "  • Desenvolvimento de funcionalidades e melhorias com Django/Python",
@@ -65,7 +64,7 @@ const FILESYSTEM_PT = {
       "",
       "",
       "Software Engineer @ Logtrac Consultores Associados (02/2024 - 02/2026)",
-      "──────────────────────────────────────────────────────────────────────────",
+      sep(74),
       "Plataforma de logística para o setor do agronegócio",
       "",
       "  • Desenvolvimento de soluções em Node.js, PL/SQL e Oracle APEX",
@@ -74,7 +73,7 @@ const FILESYSTEM_PT = {
       "",
       "",
       "Data Analyst @ Soldamaq Comércio de Ferramentas (10/2022 - 02/2024)",
-      "──────────────────────────────────────────────────────────────────────",
+      sep(70),
       "Análise de dados no setor de comércio varejista",
       "",
       "  • Criação de indicadores de desempenho (KPIs) para controle de custos e vendas",
@@ -84,15 +83,46 @@ const FILESYSTEM_PT = {
     ].join("\n")
   },
 
+  "projects": {
+    "terminal-portfolio.txt": [
+      ...header("Terminal Portfolio"),
+      "",
+      "Este portfólio interativo",
+      sep(30),
+      ...para(
+        "Portfólio em formato de terminal, navegável por comandos",
+        "como ls, cd e cat."
+      ),
+      "",
+      "Stack",
+      "  JavaScript (vanilla) | HTML | CSS",
+      "  jQuery Terminal",
+      "",
+      "Funcionalidades",
+      "  • Sistema de arquivos navegável em memória",
+      "  • Bilíngue (PT/EN) com troca em tempo real",
+      "  • Temas claro e escuro (paleta Catppuccin)",
+      "  • Layout adaptativo com atalhos de comando no mobile",
+      "  • Autocomplete com Tab",
+      "",
+      "Infraestrutura",
+      "  • Hospedagem estática em S3 + CloudFront",
+      "  • Deploy contínuo com GitHub Actions",
+      "  • Invalidação automática de cache no CloudFront",
+      "",
+      ""
+    ].join("\n")
+  },
+
   "skills": {
     "cloud.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Cloud & DevOps                          ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Cloud & DevOps"),
       "",
       "AWS",
-      "  S3 | CloudFront | EC2 | Lambda | API Gateway",
-      "  Route 53 | ACM | IAM | DynamoDB | RDS | SQS",
+      ...para(
+        "  S3 | CloudFront | EC2 | Lambda | API Gateway",
+        "  Route 53 | ACM | IAM | DynamoDB | RDS | SQS"
+      ),
       "",
       "",
       "Containers & CI/CD",
@@ -103,9 +133,7 @@ const FILESYSTEM_PT = {
     ].join("\n"),
 
     "data.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Análise de Dados                        ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Análise de Dados"),
       "",
       "Visualização & BI",
       "  Power BI | DAX | Dashboards interativos",
@@ -123,9 +151,7 @@ const FILESYSTEM_PT = {
     ].join("\n"),
 
     "dev.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Desenvolvimento                         ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Desenvolvimento"),
       "",
       "Linguagens",
       "  Java | Python | JavaScript | TypeScript | SQL",
@@ -146,15 +172,13 @@ const FILESYSTEM_PT = {
 
   "contact": {
     "links.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Contato                                 ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Contato"),
       "",
-      "GitHub    → https://github.com/Coelho013",
-      "LinkedIn  → https://linkedin.com/in/gabriel-coelho-ramos",
-      "Email     → coelhoramos.gabriel@gmail.com",
+      ...contact("GitHub", "https://github.com/Coelho013", 10),
+      ...contact("LinkedIn", "https://linkedin.com/in/gabriel-coelho-ramos", 10),
+      ...contact("Email", "coelhoramos.gabriel@gmail.com", 10),
       "",
-      "─────────────────────────────────────────────────",
+      sep(49),
       "Aberto a oportunidades e projetos interessantes.",
       "Fique à vontade para entrar em contato!"
     ].join("\n")
@@ -164,35 +188,34 @@ const FILESYSTEM_PT = {
 const FILESYSTEM_EN = {
   "about": {
     "me.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Gabriel Coelho Ramos                    ║",
-      "║          Software Engineer                       ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Gabriel Coelho Ramos", "Software Engineer"),
       "",
       `Born in Campo Grande, MS, Brazil, ${age} years old.`,
       "",
-      "Software Engineer focused on backend development, cloud computing",
-      "and highly available solutions on AWS.",
+      ...para(
+        "Software Engineer focused on backend development, cloud computing",
+        "and highly available solutions on AWS."
+      ),
       "",
       "Currently working on a credit and risk analysis solution.",
       "",
-      "Passionate about building high-performance and scalable solutions.",
-      "Following best practices in design and architecture.",
+      ...para(
+        "Passionate about building high-performance and scalable solutions.",
+        "Following best practices in design and architecture."
+      ),
       "",
       "Location: Joinville, SC, Brazil"
     ].join("\n"),
 
     "education.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Education                               ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Education"),
       "",
       "Degree",
       "  Pursuing Data Science at Federal University of Campo Grande, MS",
       "",
       "Certifications",
-      "  - AWS Cloud Practitioner → https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url",
-      "  - AWS Solutions Architect Associate → {{loading}}",
+      ...link("AWS Cloud Practitioner", CREDLY_URL),
+      ...link("AWS Solutions Architect Associate", "{{loading}}"),
       "",
       "Languages",
       "  - Portuguese (native)",
@@ -200,12 +223,10 @@ const FILESYSTEM_EN = {
     ].join("\n"),
 
     "experience.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Professional Experience                 ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Professional Experience"),
       "",
       "Software Engineer @ Ibratan (06/2026 - Now)",
-      "───────────────────────────────────────",
+      sep(39),
       "Credit, risk and fraud analysis solution",
       "",
       "  • Development and maintenance of custom credit policies",
@@ -213,7 +234,7 @@ const FILESYSTEM_EN = {
       "",
       "",
       "Software Engineer @ Hopen Data (02/2026 - 06/2026)",
-      "─────────────────────────────────────────────────────",
+      sep(53),
       "Platform for data-driven political decision-making using public data",
       "",
       "  • Feature development and improvements with Django/Python",
@@ -222,7 +243,7 @@ const FILESYSTEM_EN = {
       "",
       "",
       "Software Engineer @ Logtrac Consultores Associados (02/2024 - 02/2026)",
-      "──────────────────────────────────────────────────────────────────────────",
+      sep(74),
       "Logistics platform for the agribusiness sector",
       "",
       "  • Solution development with Node.js, PL/SQL and Oracle APEX",
@@ -231,7 +252,7 @@ const FILESYSTEM_EN = {
       "",
       "",
       "Data Analyst @ Soldamaq Comércio de Ferramentas (10/2022 - 02/2024)",
-      "──────────────────────────────────────────────────────────────────────",
+      sep(70),
       "Data analysis in the retail commerce sector",
       "",
       "  • KPI development for cost control and sales performance",
@@ -241,15 +262,46 @@ const FILESYSTEM_EN = {
     ].join("\n")
   },
 
+  "projects": {
+    "terminal-portfolio.txt": [
+      ...header("Terminal Portfolio"),
+      "",
+      "This interactive portfolio",
+      sep(30),
+      ...para(
+        "A portfolio built as a terminal, navigable through commands",
+        "like ls, cd and cat."
+      ),
+      "",
+      "Stack",
+      "  JavaScript (vanilla) | HTML | CSS",
+      "  jQuery Terminal",
+      "",
+      "Features",
+      "  • In-memory navigable file system",
+      "  • Bilingual (PT/EN) with runtime switching",
+      "  • Light and dark themes (Catppuccin palette)",
+      "  • Adaptive layout with command shortcuts on mobile",
+      "  • Tab autocompletion",
+      "",
+      "Infrastructure",
+      "  • Static hosting on S3 + CloudFront",
+      "  • Continuous deployment with GitHub Actions",
+      "  • Automatic CloudFront cache invalidation",
+      "",
+      ""
+    ].join("\n")
+  },
+
   "skills": {
     "cloud.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Cloud                                   ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Cloud"),
       "",
       "AWS",
-      "  S3 | CloudFront | EC2 | Lambda | API Gateway",
-      "  Route 53 | ACM | IAM | DynamoDB | RDS | SQS",
+      ...para(
+        "  S3 | CloudFront | EC2 | Lambda | API Gateway",
+        "  Route 53 | ACM | IAM | DynamoDB | RDS | SQS"
+      ),
       "",
       "",
       "Containers & CI/CD",
@@ -260,9 +312,7 @@ const FILESYSTEM_EN = {
     ].join("\n"),
 
     "data.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Data Analysis                           ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Data Analysis"),
       "",
       "Visualization & BI",
       "  Power BI | DAX | Interactive Dashboards",
@@ -280,9 +330,7 @@ const FILESYSTEM_EN = {
     ].join("\n"),
 
     "dev.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Development                             ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Development"),
       "",
       "Languages",
       "  Java | Python | JavaScript | TypeScript | SQL",
@@ -303,15 +351,13 @@ const FILESYSTEM_EN = {
 
   "contact": {
     "links.txt": [
-      "╔══════════════════════════════════════════════════╗",
-      "║          Contact                                 ║",
-      "╚══════════════════════════════════════════════════╝",
+      ...header("Contact"),
       "",
-      "GitHub    → https://github.com/Coelho013",
-      "LinkedIn  → https://linkedin.com/in/gabriel-coelho-ramos",
-      "Email     → coelhoramos.gabriel@gmail.com",
+      ...contact("GitHub", "https://github.com/Coelho013", 10),
+      ...contact("LinkedIn", "https://linkedin.com/in/gabriel-coelho-ramos", 10),
+      ...contact("Email", "coelhoramos.gabriel@gmail.com", 10),
       "",
-      "─────────────────────────────────────────────────",
+      sep(49),
       "Open to opportunities and interesting projects.",
       "Feel free to reach out!"
     ].join("\n")

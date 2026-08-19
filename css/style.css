@@ -1,8 +1,37 @@
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+:root {
+    --font: "JetBrains Mono";
+}
+
+.preloader {
+    font-family: "JetBrains Mono";
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
+    background: var(--app-bg, #1e1e2e);
 }
 
 #terminal {
@@ -33,4 +62,144 @@ html, body {
     70%     { content: "⠧"; }
     80%     { content: "⠇"; }
     90%     { content: "⠏"; }
+}
+
+#mobile-toolbar {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    html, body {
+        height: 100dvh;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .terminal {
+        --size: 1.35;
+    }
+
+    #terminal {
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 0;
+        overflow-x: hidden;
+    }
+
+    #terminal,
+    .terminal,
+    .terminal-scroller {
+        scrollbar-width: thin;
+        scrollbar-color: #45475a transparent;
+    }
+
+    #terminal::-webkit-scrollbar,
+    .terminal::-webkit-scrollbar,
+    .terminal-scroller::-webkit-scrollbar {
+        width: 6px;
+        height: 0;
+        background: transparent;
+    }
+
+    #terminal::-webkit-scrollbar-track,
+    .terminal::-webkit-scrollbar-track,
+    .terminal-scroller::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    #terminal::-webkit-scrollbar-thumb,
+    .terminal::-webkit-scrollbar-thumb,
+    .terminal-scroller::-webkit-scrollbar-thumb {
+        background: #45475a;
+        border-radius: 3px;
+    }
+
+    #terminal::-webkit-scrollbar-corner,
+    .terminal::-webkit-scrollbar-corner,
+    .terminal-scroller::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    #mobile-toolbar {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        background: #181825;
+        border-top: 1px solid #313244;
+        padding: 8px 10px;
+        padding-bottom: calc(8px + env(safe-area-inset-bottom, 0));
+        gap: 8px;
+    }
+
+    .toolbar-chips {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .toolbar-chips .chip {
+        background: #313244;
+        color: #cdd6f4;
+        border: 1px solid #45475a;
+        border-radius: 14px;
+        padding: 5px 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        white-space: nowrap;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.15s;
+    }
+
+    .toolbar-chips .chip:active {
+        background: #45475a;
+    }
+
+    .toolbar-input {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #1e1e2e;
+        border: 1px solid #45475a;
+        border-radius: 8px;
+        padding: 6px 10px;
+    }
+
+    .toolbar-prompt {
+        color: #a6e3a1;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .toolbar-input input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #cdd6f4;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+    }
+
+    .toolbar-input input::placeholder {
+        color: #6c7086;
+    }
+
+    #mobile-send {
+        background: transparent;
+        border: none;
+        color: #89b4fa;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 2px 6px;
+    }
+
+    #mobile-send:active {
+        color: #a6e3a1;
+    }
 }
