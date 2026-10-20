@@ -38,13 +38,7 @@ function applyTheme(theme) {
     const c = THEMES[theme];
     if (!c) return;
 
-    const el = document.querySelector('.terminal');
-    if (el) {
-        el.style.setProperty("--color", c.text);
-        el.style.setProperty("--background", c.base);
-    }
-
-    document.documentElement.style.setProperty("--app-bg", c.base);
+    document.documentElement.dataset.theme = theme;
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) themeColor.setAttribute("content", c.base);
@@ -77,16 +71,24 @@ function getBrowser() {
     return "Any";
 }
 
+function getPath() {
+    return currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
+}
+
 function getPrompt() {
-
-    const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
     const c = getThemeColors();
+    return `[[;${c.green};]guest@portfolio]:[[;${c.blue};]${getPath()}]$ `;
+}
 
-    const styledUser = `[[;${c.green};]guest@portfolio]`;
-    const styledPath = `[[;${c.blue};]${path}]`;
-    const dim = `[[;${c.overlay0};]─]`;
+function refreshPrompt(term) {
+    term.set_prompt(getPrompt());
+    const windowPath = document.getElementById("window-path");
+    if (windowPath) windowPath.textContent = getPath();
+}
 
-    return `╭${dim} ${styledUser} ${styledPath}\n╰${dim} $ `;
+function cmdLink(text, cmd, color, needsArg) {
+    const attrs = needsArg ? `{"data-cmd":"${cmd}","data-arg":"1"}` : `{"data-cmd":"${cmd}"}`;
+    return `[[;${color || ""};;cmd-link;;${attrs}]${$.terminal.escape_brackets(text)}]`;
 }
 
 const MESSAGES = {
@@ -172,22 +174,22 @@ const COMMANDS = {
         const dir = getCurrentDir();
         const entries = Object.keys(dir);
         const c = getThemeColors();
-        let output = "";
+        const items = currentPath.length > 0 ? [cmdLink("../", "cd ..", c.overlay0)] : [];
 
         for (const entry of entries) {
             if (typeof dir[entry] === "object") {
-                output += `[[;${c.blue};]${entry}/]  `;
+                items.push(cmdLink(`${entry}/`, `cd ${entry}`, c.blue));
             } else {
-                output += `${entry}  `;
+                items.push(cmdLink(entry, `cat ${entry}`));
             }
         }
-        term.echo(output);
+        term.echo(items.join(IS_SMALL ? "\n" : "  "));
     },
 
     cd: function(term, args) {
         if (!args || args.length === 0 || args[0] === "~") {
             currentPath = [];
-            term.set_prompt(getPrompt());
+            refreshPrompt(term);
             return;
         }
 
@@ -197,7 +199,7 @@ const COMMANDS = {
             if (currentPath.length > 0) {
                 currentPath.pop();
             }
-            term.set_prompt(getPrompt());
+            refreshPrompt(term);
             return;
         }
 
@@ -205,7 +207,7 @@ const COMMANDS = {
 
         if (dir[target] && typeof dir[target] === "object") {
             currentPath.push(target);
-            term.set_prompt(getPrompt());
+            refreshPrompt(term);
         } else if (dir[target]) {
             term.error(msg().cdNotDir(target));
         } else {
@@ -247,8 +249,7 @@ const COMMANDS = {
     },
 
     pwd: function(term) {
-        const path = currentPath.length === 0 ? "~" : "~/" + currentPath.join("/");
-        term.echo(path);
+        term.echo(getPath());
     },
 
     whoami: function(term) {
@@ -273,7 +274,7 @@ const COMMANDS = {
             currentLang = lang;
             savePref("lang", lang);
             applyLangAttribute();
-            term.set_prompt(getPrompt());
+            refreshPrompt(term);
             term.echo(msg().langChanged(lang));
         } else {
             term.error(msg().langInvalid);
@@ -291,7 +292,7 @@ const COMMANDS = {
         if (THEMES[theme]) {
             applyTheme(theme);
             savePref("theme", theme);
-            term.set_prompt(getPrompt());
+            refreshPrompt(term);
             term.echo(msg().themeChanged(theme));
         } else {
             term.error(msg().themeInvalid);
@@ -315,7 +316,7 @@ const COMMANDS = {
                 await delay(28);
                 term.update(-1, bar(i));
             }
-            term.echo(`[[;${c.green};][ OK \]] ${msg().guiStarting}`);
+            term.echo(`[[;${c.green};][ OK \\]] ${msg().guiStarting}`);
             await delay(450);
             window.location.href = "landing.html";
         }
