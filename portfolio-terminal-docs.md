@@ -32,9 +32,12 @@ Portfolio pessoal com interface de terminal Linux, onde o visitante navega por d
 ```
 portfolio-terminal/
 ├── index.html              # Pagina principal com terminal
+├── landing.html            # Versao visual (comando `gui`)
 ├── css/
-│   └── style.css           # Estilos customizados do terminal
+│   ├── style.css           # Estilos customizados do terminal
+│   └── landing.css         # Estilos da versao visual
 ├── js/
+│   ├── landing.js          # Animacoes, idioma e tema da versao visual
 │   ├── filesystem.js       # Definicao das pastas e arquivos virtuais
 │   ├── commands.js         # Logica dos comandos (ls, cd, cat, help)
 │   └── main.js             # Inicializacao do terminal

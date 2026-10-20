@@ -104,6 +104,7 @@ const MESSAGES = {
             ...helpEntry("pwd", "Diretório atual"),
             ...helpEntry("lang <pt|en>", "Altera o idioma"),
             ...helpEntry("theme <dark|light>", "Altera o tema"),
+            ...helpEntry("gui", "Abre a versão visual"),
             "",
             "Dica: 'cd ..' volta uma pasta",
             ""
@@ -119,7 +120,8 @@ const MESSAGES = {
         langInvalid: "Idioma inválido. Use: lang pt  ou  lang en",
         themeUsage: "Uso: Tema <dark|light>\nTema atual: ",
         themeChanged: (t) => `Tema alterado para: ${t}`,
-        themeInvalid: "Tema inválido. Use: theme dark  ou  theme light"
+        themeInvalid: "Tema inválido. Use: theme dark  ou  theme light",
+        guiStarting: "Iniciando interface gráfica..."
     },
     en: {
         help: [
@@ -135,6 +137,7 @@ const MESSAGES = {
             ...helpEntry("pwd", "Current directory"),
             ...helpEntry("lang <pt|en>", "Change language"),
             ...helpEntry("theme <dark|light>", "Change theme"),
+            ...helpEntry("gui", "Open the visual version"),
             "",
             "Tip: 'cd ..' goes back one folder",
             ""
@@ -150,7 +153,8 @@ const MESSAGES = {
         langInvalid: "Invalid language. Use: lang pt  or  lang en",
         themeUsage: "Usage: theme <dark|light>\nCurrent theme: ",
         themeChanged: (t) => `Theme changed to: ${t}`,
-        themeInvalid: "Invalid theme. Use: theme dark  or  theme light"
+        themeInvalid: "Invalid theme. Use: theme dark  or  theme light",
+        guiStarting: "Starting graphical interface..."
     }
 };
 
@@ -293,4 +297,32 @@ const COMMANDS = {
             term.error(msg().themeInvalid);
         }
     },
+
+    gui: function(term) {
+        const c = getThemeColors();
+        const width = IS_SMALL ? 16 : 24;
+        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+        function bar(i) {
+            const filled = "█".repeat(i) + "░".repeat(width - i);
+            return `[[;${c.mauve};][${filled}\\]] ${Math.round(i / width * 100)}%`;
+        }
+
+        async function launch() {
+            term.pause();
+            term.echo(bar(0));
+            for (let i = 1; i <= width; i++) {
+                await delay(28);
+                term.update(-1, bar(i));
+            }
+            term.echo(`[[;${c.green};][ OK \]] ${msg().guiStarting}`);
+            await delay(450);
+            window.location.href = "landing.html";
+        }
+
+        launch();
+    },
 };
+
+COMMANDS.web = COMMANDS.gui;
+COMMANDS.recruiter = COMMANDS.gui;

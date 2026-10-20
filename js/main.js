@@ -27,7 +27,7 @@ function startTerminal() {
             "  [ OK ] Establishing connection...",
     ].join("\n")
 
-    function welcome(lines, langHint) {
+    function welcome(lines, langHint, guiHint) {
         return [
             "",
             pad + boxTop(),
@@ -37,6 +37,7 @@ function startTerminal() {
             ...lines.map((l) => pad + boxLine(l, 2)),
             pad + boxEmpty(),
             pad + boxLine(langHint, 2),
+            pad + boxLine(guiHint, 2),
             pad + boxEmpty(),
             pad + boxBottom(),
             ""
@@ -49,13 +50,13 @@ function startTerminal() {
             "",
             "Digite 'help' para ver os",
             "comandos ou 'ls' para explorar."
-        ], "Mudar idioma: lang en"),
+        ], "Mudar idioma: lang en", "Prefere visual? Digite 'gui'"),
         en: welcome([
             "Welcome to my portfolio!",
             "",
             "Type 'help' to see commands",
             "or 'ls' to start exploring."
-        ], "Change language: lang pt")
+        ], "Change language: lang pt", "Prefer a visual? Type 'gui'")
     };
 
     function interpret(input, term) {

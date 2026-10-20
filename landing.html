@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Gabriel Coelho Ramos - Software Engineer</title>
+    <meta name="description" content="Gabriel Coelho Ramos, Software Engineer focused on backend development and AWS cloud. Experience, skills, certifications and contact.">
+    <meta name="author" content="Gabriel Coelho Ramos">
+    <meta name="theme-color" content="#1e1e2e">
+
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preload" href="assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="css/landing.css">
+
+    <script src="js/layout.js"></script>
+    <script>document.documentElement.dataset.theme = loadPref("theme", ["dark", "light"], "dark");</script>
+</head>
+<body>
+
+
+<header class="statusbar">
+    <span class="session">[0] gabriel</span>
+    <nav aria-label="Seções">
+        <a href="#experience"><span class="idx">1:</span><span data-i18n="nav.exp">experiência</span></a>
+        <a href="#skills"><span class="idx">2:</span>skills</a>
+        <a href="#education"><span class="idx">3:</span><span data-i18n="nav.edu">formação</span></a>
+        <a href="#contact"><span class="idx">4:</span><span data-i18n="nav.contact">contato</span></a>
+    </nav>
+    <div class="controls">
+        <button id="lang-btn" aria-label="Mudar idioma">EN</button>
+        <button id="theme-btn" aria-label="Mudar tema">◐</button>
+    </div>
+</header>
+
+<main>
+    <section class="hero" id="top">
+        <p class="cmd" data-cmd="whoami" data-path="~"></p>
+        <h1 id="name"></h1>
+        <div class="out" id="hero-out">
+            <p class="role">Software Engineer · Backend & AWS Cloud</p>
+            <p class="loc mono">📍 Joinville, SC — Brasil</p>
+            <p class="bio" data-i18n="bio">Engenheiro de Software com foco em desenvolvimento backend, cloud computing e soluções de alta disponibilidade na AWS. Atualmente trabalhando em uma solução de análise de crédito e risco.</p>
+            <div class="actions">
+                <a class="btn primary" href="mailto:coelhoramos.gabriel@gmail.com"><span class="k">→</span> <span data-i18n="cta.contact">Entrar em contato</span></a>
+                <a class="btn" href="https://linkedin.com/in/gabriel-coelho-ramos" target="_blank" rel="noopener"><span class="k">in</span> LinkedIn</a>
+                <a class="btn" href="https://github.com/Coelho013" target="_blank" rel="noopener"><span class="k">gh</span> GitHub</a>
+                <a class="btn" href="./"><span class="k">&gt;_</span> <span data-i18n="cta.terminal">Abrir terminal</span></a>
+            </div>
+            <p class="scroll-hint"><span>↓</span> <span data-i18n="scroll">role para ver mais</span></p>
+        </div>
+    </section>
+
+    <section id="experience">
+        <p class="cmd" data-cmd="cat experience.txt" data-path="~/about"></p>
+        <div class="out">
+            <h2 data-i18n="h.exp">Experiência</h2>
+            <div class="job current">
+                <div class="job-head"><h3>Software Engineer <span class="at">@ Ibratan</span></h3><span class="date" data-i18n="d.ibratan">06/2026 — atual</span></div>
+                <p class="ctx" data-i18n="ctx.ibratan">Solução de análise de crédito, risco e fraude</p>
+                <ul>
+                    <li data-i18n="j.ib1">Desenvolvimento e manutenção de políticas de crédito personalizadas</li>
+                    <li data-i18n="j.ib2">Automação de pipelines e versionamento com Git/GitHub</li>
+                </ul>
+            </div>
+            <div class="job">
+                <div class="job-head"><h3>Software Engineer <span class="at">@ Hopen Data</span></h3><span class="date">02/2026 — 06/2026</span></div>
+                <p class="ctx" data-i18n="ctx.hopen">Plataforma de decisões políticas baseadas em dados públicos</p>
+                <ul>
+                    <li data-i18n="j.ho1">Funcionalidades e melhorias com Django/Python</li>
+                    <li data-i18n="j.ho2">RESTful APIs com cache via Redis</li>
+                    <li data-i18n="j.ho3">Integração com AWS via SDK (S3, SQS, Lambda)</li>
+                </ul>
+            </div>
+            <div class="job">
+                <div class="job-head"><h3>Software Engineer <span class="at">@ Logtrac</span></h3><span class="date">02/2024 — 02/2026</span></div>
+                <p class="ctx" data-i18n="ctx.logtrac">Plataforma de logística para o agronegócio</p>
+                <ul>
+                    <li data-i18n="j.lo1">Soluções em Node.js, PL/SQL e Oracle APEX</li>
+                    <li data-i18n="j.lo2">Dashboards e indicadores para otimização de rotas e custos</li>
+                </ul>
+            </div>
+            <div class="job">
+                <div class="job-head"><h3>Data Analyst <span class="at">@ Soldamaq</span></h3><span class="date">10/2022 — 02/2024</span></div>
+                <p class="ctx" data-i18n="ctx.soldamaq">Análise de dados no varejo</p>
+                <ul>
+                    <li data-i18n="j.so1">KPIs para controle de custos e vendas</li>
+                    <li data-i18n="j.so2">Relatórios e painéis em Power BI</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <p class="cmd" data-cmd="ls skills/" data-path="~"></p>
+        <div class="out">
+            <h2>Skills</h2>
+            <div class="skill-group">
+                <h3>dev/</h3>
+                <div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">TypeScript</span><span class="tag">Spring</span><span class="tag">Django</span><span class="tag">REST APIs</span><span class="tag">React</span></div>
+            </div>
+            <div class="skill-group">
+                <h3>cloud/</h3>
+                <div class="tags"><span class="tag">AWS Lambda</span><span class="tag">S3</span><span class="tag">CloudFront</span><span class="tag">SQS</span><span class="tag">DynamoDB</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span></div>
+            </div>
+            <div class="skill-group">
+                <h3>data/</h3>
+                <div class="tags"><span class="tag">PostgreSQL</span><span class="tag">Oracle</span><span class="tag">Redis</span><span class="tag">Power BI</span><span class="tag">Pandas</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <p class="cmd" data-cmd="cat education.txt" data-path="~/about"></p>
+        <div class="out">
+            <h2 data-i18n="h.edu">Formação & Certificações</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3 data-i18n="edu.deg">Ciência de Dados</h3>
+                    <p data-i18n="edu.uni">Universidade Federal · cursando</p>
+                </div>
+                <div class="card">
+                    <h3>AWS Cloud Practitioner</h3>
+                    <p><a href="https://www.credly.com/badges/19b67c5d-83c9-4be4-9f59-656daa57122e/public_url" target="_blank" rel="noopener" data-i18n="edu.cred">ver credencial ↗</a></p>
+                </div>
+                <div class="card">
+                    <h3>AWS Solutions Architect<span class="badge" data-i18n="edu.prog">em andamento</span></h3>
+                    <p>Associate</p>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="edu.lang">Idiomas</h3>
+                    <p data-i18n="edu.langs">Português (nativo) · Inglês (profissional)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <p class="cmd" data-cmd="cat links.txt" data-path="~/contact"></p>
+        <div class="out">
+            <h2 data-i18n="h.contact">Vamos conversar?</h2>
+            <p data-i18n="contact.txt">Aberto a oportunidades e projetos interessantes.</p>
+            <a class="contact-mail" href="mailto:coelhoramos.gabriel@gmail.com">coelhoramos.gabriel@gmail.com</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <span>© 2026 Gabriel Coelho Ramos</span>
+    <span><span data-i18n="foot">prefere o terminal?</span> <a href="./">$ exit ↩</a></span>
+</footer>
+
+<script src="js/landing.js"></script>
+</body>
+</html>
