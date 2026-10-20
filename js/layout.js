@@ -11,19 +11,11 @@ function boxBottom() {
   return "╚" + "═".repeat(BOX_W) + "╝";
 }
 
-function boxDivider() {
-  return "╠" + "═".repeat(BOX_W) + "╣";
-}
-
 function boxLine(text, pad) {
   const indent = pad === undefined ? TITLE_PAD : pad;
   const clipped = text.length > BOX_W - indent ? text.slice(0, BOX_W - indent) : text;
   const right = BOX_W - indent - clipped.length;
   return "║" + " ".repeat(indent) + clipped + " ".repeat(right) + "║";
-}
-
-function boxEmpty() {
-  return "║" + " ".repeat(BOX_W) + "║";
 }
 
 function header(...titles) {

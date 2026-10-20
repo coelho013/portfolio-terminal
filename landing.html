@@ -14,10 +14,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/common.css?v=__BUILD__">
+    <link rel="stylesheet" href="css/landing.css?v=__BUILD__">
 
-    <script src="js/layout.js"></script>
+    <script src="js/layout.js?v=__BUILD__"></script>
     <script>document.documentElement.dataset.theme = loadPref("theme", ["dark", "light"], "dark");</script>
 </head>
 <body>
@@ -27,9 +27,10 @@
     <span class="session">[0] gabriel</span>
     <nav aria-label="Seções">
         <a href="#experience"><span class="idx">1:</span><span data-i18n="nav.exp">experiência</span></a>
-        <a href="#skills"><span class="idx">2:</span>skills</a>
-        <a href="#education"><span class="idx">3:</span><span data-i18n="nav.edu">formação</span></a>
-        <a href="#contact"><span class="idx">4:</span><span data-i18n="nav.contact">contato</span></a>
+        <a href="#projects"><span class="idx">2:</span><span data-i18n="nav.proj">projetos</span></a>
+        <a href="#skills"><span class="idx">3:</span>skills</a>
+        <a href="#education"><span class="idx">4:</span><span data-i18n="nav.edu">formação</span></a>
+        <a href="#contact"><span class="idx">5:</span><span data-i18n="nav.contact">contato</span></a>
     </nav>
     <div class="controls">
         <button id="lang-btn" aria-label="Mudar idioma">EN</button>
@@ -95,6 +96,28 @@
         </div>
     </section>
 
+    <section id="projects">
+        <p class="cmd" data-cmd="cat terminal-portfolio.txt" data-path="~/projects"></p>
+        <div class="out">
+            <h2 data-i18n="h.proj">Projetos</h2>
+            <article class="project">
+                <div class="project-head">
+                    <h3>Terminal Portfolio</h3>
+                    <span class="date" data-i18n="proj.tp.kind">este portfólio</span>
+                </div>
+                <p class="ctx" data-i18n="proj.tp.desc">Portfólio em formato de terminal, navegável por comandos como ls, cd e cat, com uma versão visual para quem prefere não usar o terminal.</p>
+                <ul>
+                    <li data-i18n="proj.tp.f1">Sistema de arquivos em memória, bilíngue (PT/EN) e com temas claro e escuro</li>
+                    <li data-i18n="proj.tp.f2">Saída clicável e layout adaptado para mobile</li>
+                    <li data-i18n="proj.tp.f3">Hospedagem estática em S3 + CloudFront com deploy contínuo via GitHub Actions</li>
+                </ul>
+                <div class="tags">
+                    <span class="tag">JavaScript</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">jQuery Terminal</span><span class="tag">AWS S3</span><span class="tag">CloudFront</span><span class="tag">GitHub Actions</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <section id="skills">
         <p class="cmd" data-cmd="ls skills/" data-path="~"></p>
         <div class="out">
@@ -154,6 +177,6 @@
     <span><span data-i18n="foot">prefere o terminal?</span> <a href="./">$ exit ↩</a></span>
 </footer>
 
-<script src="js/landing.js"></script>
+<script src="js/landing.js?v=__BUILD__"></script>
 </body>
 </html>

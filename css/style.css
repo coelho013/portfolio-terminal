@@ -58,6 +58,86 @@ body {
     border-bottom-color: currentColor;
 }
 
+/* ---------- boas-vindas (neofetch) ---------- */
+.fetch,
+.fetch-info div {
+    white-space: normal;
+}
+
+.fetch {
+    margin: 4px 0 8px;
+}
+
+.fetch-user { color: var(--green); }
+.fetch-path { color: var(--blue); }
+
+.fetch-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px 40px;
+    margin: 14px 0 18px;
+}
+
+.fetch-logo {
+    margin: 4px 0 0;
+    color: var(--mauve);
+    font-family: inherit;
+    font-size: min(0.62em, calc((100vw - 48px) / 44));
+    line-height: 1;
+}
+
+.fetch-info {
+    flex: 0 1 46ch;
+    min-width: 0;
+}
+
+.fetch-row {
+    display: grid;
+    grid-template-columns: 10ch 1fr;
+}
+
+/* jQuery Terminal adiciona um ::before em divs da saída, o que quebra grid e flex */
+.terminal-output div:has(> .fetch)::before,
+.terminal-output .fetch::before,
+.terminal-output .fetch div::before {
+    content: none;
+    display: none;
+}
+
+.fetch-key {
+    color: var(--blue);
+}
+
+.fetch-sep { color: var(--overlay0); }
+
+.fetch-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+}
+
+.fetch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green) 60%, transparent); }
+    50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+.fetch-hints { color: var(--subtext); }
+.fetch-link { color: var(--green); }
+
+@media (prefers-reduced-motion: reduce) {
+    .fetch-dot { animation: none; }
+}
+
 .terminal-spinner::after {
     content: "⠋";
     display: inline-block;

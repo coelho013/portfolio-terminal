@@ -5,6 +5,7 @@ You explore it like a Linux terminal, using commands such as `ls`, `cd` and `cat
 
 ## Features
 
+- **neofetch-style welcome** with the `coelho013` ASCII logo, a quick profile summary and availability status
 - **Interactive terminal** built with [jQuery Terminal](https://terminal.jcubic.pl/), with an in-memory file system you can browse
 - **Visual version for recruiters**: type `gui` (or `web` / `recruiter`), or click the `>_ gui` button, to open a minimal landing page with terminal-style animations
 - **Clickable output**: folders and files listed by `ls`, commands in `help` and hints in the welcome box can be clicked, so you can explore without typing
@@ -65,8 +66,9 @@ python3 -m http.server 8000
 
 Every push to `main` triggers a GitHub Actions workflow that:
 
-1. Syncs the files to a private **S3** bucket
-2. Invalidates the **CloudFront** cache
+1. Replaces the `__BUILD__` placeholder in the HTML files with the commit hash, so browsers always load the latest CSS/JS
+2. Syncs the files to a private **S3** bucket
+3. Invalidates the **CloudFront** cache
 
 The site is served over HTTPS through CloudFront (certificate from ACM, DNS on Route 53).
 The workflow needs these repository secrets: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `S3_BUCKET` and `CLOUDFRONT_DISTRIBUTION_ID`.
