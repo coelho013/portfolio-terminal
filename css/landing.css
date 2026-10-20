@@ -147,6 +147,22 @@ h2 {
 .job li { padding-left: 18px; position: relative; }
 .job li::before { content: "›"; position: absolute; left: 2px; color: var(--green); font-family: var(--mono); }
 
+/* ---------- projetos ---------- */
+.project {
+    border: 1px solid var(--surface0);
+    border-radius: 8px;
+    padding: 20px 22px;
+    transition: border-color .15s;
+}
+.project:hover { border-color: var(--surface1); }
+.project-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+.project h3 { margin: 0; font-size: 16px; font-weight: 600; }
+.project .date { font-family: var(--mono); font-size: 13px; color: var(--overlay0); }
+.project .ctx { color: var(--subtext); margin: 4px 0 10px; font-size: 15px; }
+.project ul { margin: 0 0 14px; padding: 0; list-style: none; color: var(--subtext); font-size: 15px; }
+.project li { padding-left: 18px; position: relative; }
+.project li::before { content: "›"; position: absolute; left: 2px; color: var(--green); font-family: var(--mono); }
+
 /* ---------- skills ---------- */
 .skill-group { margin-bottom: 20px; }
 .skill-group h3 {

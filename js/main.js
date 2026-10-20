@@ -13,20 +13,11 @@ function startTerminal() {
 
     const ok = () => `${pad}[[;${getThemeColors().green};][ OK \\]] `;
 
-    const LOADING = [
-        IS_SMALL ? "Loading Gabriel Coelho..." : "Loading Gabriel Coelho Ramos...",
-        "Initializing portfolio...",
-        "Loading projects...",
-        "Loading skills...",
-        "Establishing connection..."
-    ];
-
     const WELCOME_BACK = {
         pt: "Bem-vindo de volta!",
         en: "Welcome back!"
     };
 
-    const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const FROM_GUI = /landing\.html/.test(document.referrer);
 
     function linkHints(text) {
@@ -102,31 +93,14 @@ function startTerminal() {
         },
 
         onInit: function(term) {
-            const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            term.echo("");
+            if (FROM_GUI) term.echo(ok() + WELCOME_BACK[currentLang]);
+            term.echo(welcomeFor(currentLang));
+            refreshPrompt(term);
 
-            async function boot() {
-                term.set_prompt("");
-                term.echo("");
-
-                if (FROM_GUI) {
-                    term.echo(ok() + WELCOME_BACK[currentLang]);
-                    return;
-                }
-
-                for (const l of LOADING) {
-                    term.echo(ok() + l);
-                    await delay(REDUCED_MOTION ? 0 : 140);
-                }
-            }
-
-            boot().then(() => {
-                term.echo(welcomeFor(currentLang));
-                refreshPrompt(term);
-
-                setInterval(function() {
-                    term.set_prompt(getPrompt());
-                }, 1000);
-            });
+            setInterval(function() {
+                term.set_prompt(getPrompt());
+            }, 1000);
         }
     });
 

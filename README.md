@@ -65,8 +65,9 @@ python3 -m http.server 8000
 
 Every push to `main` triggers a GitHub Actions workflow that:
 
-1. Syncs the files to a private **S3** bucket
-2. Invalidates the **CloudFront** cache
+1. Replaces the `__BUILD__` placeholder in the HTML files with the commit hash, so browsers always load the latest CSS/JS
+2. Syncs the files to a private **S3** bucket
+3. Invalidates the **CloudFront** cache
 
 The site is served over HTTPS through CloudFront (certificate from ACM, DNS on Route 53).
 The workflow needs these repository secrets: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `S3_BUCKET` and `CLOUDFRONT_DISTRIBUTION_ID`.
