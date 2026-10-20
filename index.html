@@ -36,10 +36,13 @@
 <body>
     <div class="preloader visually-hidden" aria-hidden="true">x</div>
 
+    <a id="gui-link" href="landing.html" aria-label="Open visual version">&gt;_ gui</a>
+
     <div id="terminal" role="log" aria-live="polite" aria-label="Interactive terminal"></div>
 
     <div id="mobile-toolbar">
         <div class="toolbar-chips" role="group" aria-label="Command shortcuts">
+            <button class="chip chip-gui" data-cmd="gui">gui</button>
             <button class="chip" data-cmd="ls">ls</button>
             <button class="chip" data-cmd="cd" data-arg="1">cd</button>
             <button class="chip" data-cmd="cd ..">cd ..</button>

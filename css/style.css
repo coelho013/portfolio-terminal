@@ -68,6 +68,26 @@ html, body {
     display: none;
 }
 
+#gui-link {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 10;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: #7f849c;
+    text-decoration: none;
+    border: 1px solid rgba(127, 132, 156, 0.4);
+    border-radius: 4px;
+    padding: 4px 10px;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+#gui-link:hover {
+    color: #40a02b;
+    border-color: #40a02b;
+}
+
 @media screen and (max-width: 768px) {
     html, body {
         height: 100dvh;
@@ -153,6 +173,15 @@ html, body {
         cursor: pointer;
         flex-shrink: 0;
         transition: background 0.15s;
+    }
+
+    #gui-link {
+        display: none;
+    }
+
+    .toolbar-chips .chip-gui {
+        border-color: #a6e3a1;
+        color: #a6e3a1;
     }
 
     .toolbar-chips .chip:active {
