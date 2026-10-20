@@ -1,11 +1,3 @@
-@font-face {
-    font-family: "JetBrains Mono";
-    src: url("../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: block;
-}
-
 :root {
     --font: "JetBrains Mono";
 }
@@ -31,23 +23,45 @@ html, body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    background: var(--app-bg, #1e1e2e);
+    background: var(--base);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.statusbar {
+    flex: 0 0 auto;
 }
 
 #terminal {
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .terminal {
     --size: 1.6;
-    --color: #cdd6f4;
-    --background: #1e1e2e;
+    --color: var(--text);
+    --background: var(--base);
+    --link-color: var(--blue);
+    padding: 16px 24px;
+}
+
+.cmd-link {
+    cursor: pointer;
+    border-bottom: 1px dotted transparent;
+    transition: border-color 0.15s;
+}
+
+.cmd-link:hover {
+    border-bottom-color: currentColor;
 }
 
 .terminal-spinner::after {
     content: "⠋";
     display: inline-block;
-    color: #40a02b;
+    color: var(--green);
     animation: spinner 0.8s steps(1) infinite;
 }
 
@@ -68,44 +82,21 @@ html, body {
     display: none;
 }
 
-#gui-link {
-    position: fixed;
-    top: 12px;
-    right: 16px;
-    z-index: 10;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    color: #7f849c;
-    text-decoration: none;
-    border: 1px solid rgba(127, 132, 156, 0.4);
-    border-radius: 4px;
-    padding: 4px 10px;
-    transition: color 0.15s, border-color 0.15s;
-}
-
-#gui-link:hover {
-    color: #40a02b;
-    border-color: #40a02b;
-}
-
 @media screen and (max-width: 768px) {
     html, body {
         height: 100dvh;
     }
 
-    body {
-        display: flex;
-        flex-direction: column;
-    }
-
     .terminal {
         --size: 1.35;
+        padding: 12px 10px;
+    }
+
+    .statusbar .window {
+        display: none;
     }
 
     #terminal {
-        flex: 1 1 auto;
-        height: auto;
-        min-height: 0;
         overflow-x: hidden;
     }
 
@@ -113,7 +104,7 @@ html, body {
     .terminal,
     .terminal-scroller {
         scrollbar-width: thin;
-        scrollbar-color: #45475a transparent;
+        scrollbar-color: var(--surface1) transparent;
     }
 
     #terminal::-webkit-scrollbar,
@@ -133,7 +124,7 @@ html, body {
     #terminal::-webkit-scrollbar-thumb,
     .terminal::-webkit-scrollbar-thumb,
     .terminal-scroller::-webkit-scrollbar-thumb {
-        background: #45475a;
+        background: var(--surface1);
         border-radius: 3px;
     }
 
@@ -147,8 +138,8 @@ html, body {
         display: flex;
         flex-direction: column;
         flex: 0 0 auto;
-        background: #181825;
-        border-top: 1px solid #313244;
+        background: var(--mantle);
+        border-top: 1px solid var(--surface0);
         padding: 8px 10px;
         padding-bottom: calc(8px + env(safe-area-inset-bottom, 0));
         gap: 8px;
@@ -162,12 +153,12 @@ html, body {
     }
 
     .toolbar-chips .chip {
-        background: #313244;
-        color: #cdd6f4;
-        border: 1px solid #45475a;
+        background: var(--surface0);
+        color: var(--text);
+        border: 1px solid var(--surface1);
         border-radius: 14px;
         padding: 5px 14px;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
         font-size: 13px;
         white-space: nowrap;
         cursor: pointer;
@@ -175,32 +166,23 @@ html, body {
         transition: background 0.15s;
     }
 
-    #gui-link {
-        display: none;
-    }
-
-    .toolbar-chips .chip-gui {
-        border-color: #a6e3a1;
-        color: #a6e3a1;
-    }
-
     .toolbar-chips .chip:active {
-        background: #45475a;
+        background: var(--surface1);
     }
 
     .toolbar-input {
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #1e1e2e;
-        border: 1px solid #45475a;
+        background: var(--base);
+        border: 1px solid var(--surface1);
         border-radius: 8px;
         padding: 6px 10px;
     }
 
     .toolbar-prompt {
-        color: #a6e3a1;
-        font-family: "JetBrains Mono", monospace;
+        color: var(--green);
+        font-family: var(--mono);
         font-size: 14px;
         font-weight: bold;
     }
@@ -210,25 +192,25 @@ html, body {
         background: transparent;
         border: none;
         outline: none;
-        color: #cdd6f4;
-        font-family: "JetBrains Mono", monospace;
+        color: var(--text);
+        font-family: var(--mono);
         font-size: 14px;
     }
 
     .toolbar-input input::placeholder {
-        color: #6c7086;
+        color: var(--overlay0);
     }
 
     #mobile-send {
         background: transparent;
         border: none;
-        color: #89b4fa;
+        color: var(--blue);
         font-size: 18px;
         cursor: pointer;
         padding: 2px 6px;
     }
 
     #mobile-send:active {
-        color: #a6e3a1;
+        color: var(--green);
     }
 }

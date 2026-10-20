@@ -50,7 +50,7 @@ function para(...lines) {
 const FIT_W = BOX_W + 2;
 
 function wrapLine(line, width) {
-  if (line.length <= width) return [line];
+  if (line.length <= width || line.includes("[[")) return [line];
 
   const lead = line.match(/^\s*/)[0];
   const isItem = /^[•\-→]/.test(line.trim());
@@ -82,7 +82,11 @@ function fitContent(text) {
 }
 
 function helpEntry(cmd, desc) {
-  return IS_SMALL ? [`  ${cmd}`, `    ${desc}`] : [`  ${cmd.padEnd(20)}${desc}`];
+  const name = cmd.split(" ")[0];
+  const needsArg = cmd.includes("<");
+  const attrs = needsArg ? `{"data-cmd":"${name}","data-arg":"1"}` : `{"data-cmd":"${name}"}`;
+  const label = `[[;;;cmd-link;;${attrs}]${cmd}]`;
+  return IS_SMALL ? [`  ${label}`, `    ${desc}`] : [`  ${label}${" ".repeat(Math.max(1, 20 - cmd.length))}${desc}`];
 }
 
 function loadPref(key, allowed, fallback) {

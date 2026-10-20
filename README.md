@@ -7,6 +7,8 @@ You explore it like a Linux terminal, using commands such as `ls`, `cd` and `cat
 
 - **Interactive terminal** built with [jQuery Terminal](https://terminal.jcubic.pl/), with an in-memory file system you can browse
 - **Visual version for recruiters**: type `gui` (or `web` / `recruiter`), or click the `>_ gui` button, to open a minimal landing page with terminal-style animations
+- **Clickable output**: folders and files listed by `ls`, commands in `help` and hints in the welcome box can be clicked, so you can explore without typing
+- **tmux-style status bar** shared by the terminal and the landing page, with shortcuts for `gui`, language and theme
 - **Bilingual** (English / Portuguese), switched at runtime with `lang en` / `lang pt`
 - **Light and dark themes** based on the Catppuccin palette (`theme dark` / `theme light`)
 - **Language and theme are shared** between the terminal and the landing page (stored in `localStorage`)
@@ -36,6 +38,7 @@ portfolio-terminal/
 ├── index.html          # Terminal page
 ├── landing.html        # Visual landing page (opened by `gui`)
 ├── css/
+│   ├── common.css      # Shared fonts, theme colors and status bar
 │   ├── style.css       # Terminal styles
 │   └── landing.css     # Landing page styles
 ├── js/

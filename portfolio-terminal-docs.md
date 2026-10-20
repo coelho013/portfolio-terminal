@@ -34,6 +34,7 @@ portfolio-terminal/
 ├── index.html              # Pagina principal com terminal
 ├── landing.html            # Versao visual (comando `gui`)
 ├── css/
+│   ├── common.css          # Fonte, cores dos temas e barra de topo compartilhadas
 │   ├── style.css           # Estilos customizados do terminal
 │   └── landing.css         # Estilos da versao visual
 ├── js/
