@@ -9,9 +9,7 @@ $(function() {
 
 function startTerminal() {
 
-    const pad = IS_SMALL ? "" : "  ";
-
-    const ok = () => `${pad}[[;${getThemeColors().green};][ OK \\]] `;
+    const ok = () => `[[;${getThemeColors().green};][ OK \\]] `;
 
     const WELCOME_BACK = {
         pt: "Bem-vindo de volta!",
@@ -20,49 +18,66 @@ function startTerminal() {
 
     const FROM_GUI = /landing\.html/.test(document.referrer);
 
-    function linkHints(text) {
-        const c = getThemeColors();
-        return text
-            .replace("'help'", "'" + cmdLink("help", "help", c.green) + "'")
-            .replace("'ls'", "'" + cmdLink("ls", "ls", c.green) + "'")
-            .replace("'gui'", "'" + cmdLink("gui", "gui", c.green) + "'")
-            .replace(/lang (en|pt)/, (m) => cmdLink(m, m, c.green));
-    }
+    const LOGO = [
+        " ██████╗ ██████╗ ███████╗██╗     ██╗  ██╗ ██████╗  ██████╗  ██╗██████╗ ",
+        "██╔════╝██╔═══██╗██╔════╝██║     ██║  ██║██╔═══██╗██╔═████╗███║╚════██╗",
+        "██║     ██║   ██║█████╗  ██║     ███████║██║   ██║██║██╔██║╚██║ █████╔╝",
+        "██║     ██║   ██║██╔══╝  ██║     ██╔══██║██║   ██║████╔╝██║ ██║ ╚═══██╗",
+        "╚██████╗╚██████╔╝███████╗███████╗██║  ██║╚██████╔╝╚██████╔╝ ██║██████╔╝",
+        " ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝  ╚═╝╚═════╝ "
+    ].join("\n");
 
-    function welcome(lines, langHint, guiHint) {
-        return [
-            "",
-            pad + boxTop(),
-            pad + boxLine("Gabriel Coelho Ramos", IS_SMALL ? 4 : 14),
-            pad + boxDivider(),
-            pad + boxEmpty(),
-            ...lines.map((l) => pad + boxLine(l, 2)),
-            pad + boxEmpty(),
-            pad + boxLine(langHint, 2),
-            pad + boxLine(guiHint, 2),
-            pad + boxEmpty(),
-            pad + boxBottom(),
-            ""
-        ].join("\n");
-    }
-
-    const WELCOME_TEXT = {
-        pt: () => welcome([
-            "Bem-vindo ao meu portfólio!",
-            "",
-            "Digite 'help' para ver os",
-            "comandos ou 'ls' para explorar."
-        ], "Mudar idioma: lang en", "Prefere visual? Digite 'gui'"),
-        en: () => welcome([
-            "Welcome to my portfolio!",
-            "",
-            "Type 'help' to see commands",
-            "or 'ls' to start exploring."
-        ], "Change language: lang pt", "Prefer a visual? Type 'gui'")
+    const FETCH = {
+        pt: {
+            rows: [
+                ["Nome", "Gabriel Coelho Ramos"],
+                ["Cargo", "Software Engineer @ Ibratan"],
+                ["Foco", "Backend · AWS Cloud"],
+                ["Local", "Joinville, SC — Brasil"],
+                ["Stack", "Java · Python · TypeScript · SQL"],
+                ["Cloud", "Lambda · S3 · SQS · CloudFront"]
+            ],
+            status: "aberto a oportunidades",
+            hints: (l) => `Digite ${l("help")} para ver os comandos ou ${l("ls")} para explorar.`,
+            hints2: (l) => `Prefere visual? Digite ${l("gui")} · Mudar idioma: ${l("lang en")}`
+        },
+        en: {
+            rows: [
+                ["Name", "Gabriel Coelho Ramos"],
+                ["Role", "Software Engineer @ Ibratan"],
+                ["Focus", "Backend · AWS Cloud"],
+                ["Location", "Joinville, SC — Brazil"],
+                ["Stack", "Java · Python · TypeScript · SQL"],
+                ["Cloud", "Lambda · S3 · SQS · CloudFront"]
+            ],
+            status: "open to opportunities",
+            hints: (l) => `Type ${l("help")} to see commands or ${l("ls")} to start exploring.`,
+            hints2: (l) => `Prefer a visual? Type ${l("gui")} · Change language: ${l("lang pt")}`
+        }
     };
 
     function welcomeFor(lang) {
-        return linkHints(WELCOME_TEXT[lang]());
+        const f = FETCH[lang];
+        const link = (cmd) => `<span class="cmd-link fetch-link" data-cmd="${cmd}">${cmd}</span>`;
+        const rows = f.rows
+            .map(([k, v]) => `<div class="fetch-row"><span class="fetch-key">${k}</span><span>${v}</span></div>`)
+            .join("");
+
+        return [
+            `<div class="fetch">`,
+            `<div><span class="fetch-user">guest@portfolio</span>:<span class="fetch-path">~</span>$ neofetch</div>`,
+            `<div class="fetch-body">`,
+            `<pre class="fetch-logo" aria-label="coelho013">${LOGO}</pre>`,
+            `<div class="fetch-info">`,
+            `<div><span class="fetch-user">coelho013</span>@<span class="fetch-user">portfolio</span></div>`,
+            `<div class="fetch-sep">─────────────────────</div>`,
+            rows,
+            `<div class="fetch-row"><span class="fetch-key">Status</span><span class="fetch-status"><span class="fetch-dot"></span>${f.status}</span></div>`,
+            `</div>`,
+            `</div>`,
+            `<div class="fetch-hints">${f.hints(link)}<br>${f.hints2(link)}</div>`,
+            `</div>`
+        ].join("");
     }
 
     function interpret(input, term) {
@@ -93,9 +108,8 @@ function startTerminal() {
         },
 
         onInit: function(term) {
-            term.echo("");
             if (FROM_GUI) term.echo(ok() + WELCOME_BACK[currentLang]);
-            term.echo(welcomeFor(currentLang));
+            term.echo(welcomeFor(currentLang), { raw: true });
             refreshPrompt(term);
 
             setInterval(function() {
@@ -121,7 +135,7 @@ function startTerminal() {
         if (args && args.length > 0) {
             const lang = args[0].toLowerCase();
             if (lang === "pt" || lang === "en") {
-                t.echo(welcomeFor(lang));
+                t.echo(welcomeFor(lang), { raw: true });
             }
         }
     };

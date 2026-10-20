@@ -5,6 +5,7 @@ You explore it like a Linux terminal, using commands such as `ls`, `cd` and `cat
 
 ## Features
 
+- **neofetch-style welcome** with the `coelho013` ASCII logo, a quick profile summary and availability status
 - **Interactive terminal** built with [jQuery Terminal](https://terminal.jcubic.pl/), with an in-memory file system you can browse
 - **Visual version for recruiters**: type `gui` (or `web` / `recruiter`), or click the `>_ gui` button, to open a minimal landing page with terminal-style animations
 - **Clickable output**: folders and files listed by `ls`, commands in `help` and hints in the welcome box can be clicked, so you can explore without typing
