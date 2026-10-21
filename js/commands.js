@@ -1,6 +1,6 @@
 let currentPath = [];
 let currentTheme = loadPref("theme", ["dark", "light"], "dark");
-let currentStyle = loadPref("style", ["default", "retro"], "default");
+let currentStyle = document.documentElement.dataset.style;
 
 const THEMES = {
     dark: {
@@ -378,7 +378,7 @@ const COMMANDS = {
             }
             term.echo(`[[;${c.green};][ OK \\]] ${msg().guiStarting}`);
             await delay(450);
-            window.location.href = "landing.html";
+            window.location.href = "landing.html?style=" + currentStyle;
         }
 
         launch();

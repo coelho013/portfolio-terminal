@@ -52,7 +52,8 @@ document.querySelectorAll("[data-i18n]").forEach((el) => {
 
 let landingLang = loadPref("lang", ["pt", "en"], "en");
 let landingTheme = loadPref("theme", ["dark", "light"], "dark");
-let landingStyle = loadPref("style", ["default", "retro"], "default");
+let landingStyle = document.documentElement.dataset.style;
+const TERMINAL_LINKS = document.querySelectorAll('a[href="./"]');
 
 function setLandingLang(lang) {
     const dict = lang === "en" ? LANDING_EN : LANDING_PT;
@@ -78,6 +79,7 @@ function setLandingStyle(style) {
     document.documentElement.dataset.style = style;
     landingStyle = style;
     savePref("style", style);
+    TERMINAL_LINKS.forEach((a) => a.setAttribute("href", "./?style=" + style));
     setLandingTheme(landingTheme);
 }
 
@@ -94,6 +96,13 @@ document.getElementById("theme-btn").addEventListener("click", () => {
 
 document.getElementById("style-btn").addEventListener("click", () => {
     setLandingStyle(landingStyle === "retro" ? "default" : "retro");
+});
+
+// voltando do terminal pelo histórico, a página sai do bfcache com o tema/visual antigos
+window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    landingTheme = loadPref("theme", ["dark", "light"], landingTheme);
+    setLandingStyle(loadPref("style", STYLES, landingStyle));
 });
 
 const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
