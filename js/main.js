@@ -182,6 +182,10 @@ function startTerminal() {
         runCommand("theme " + (currentTheme === "dark" ? "light" : "dark"));
     });
 
+    $("#style-btn").on("click", function() {
+        runCommand("style " + (currentStyle === "retro" ? "default" : "retro"));
+    });
+
     function setupMobileToolbar() {
         const mobileInput = document.getElementById('mobile-input');
         const mobileSend = document.getElementById('mobile-send');

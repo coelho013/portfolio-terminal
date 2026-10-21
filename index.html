@@ -30,12 +30,16 @@
 
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="preload" href="assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x/css/jquery.terminal.min.css">
     <link rel="stylesheet" href="css/common.css?v=__BUILD__">
     <link rel="stylesheet" href="css/style.css?v=__BUILD__">
+    <link rel="stylesheet" href="css/retro.css?v=__BUILD__">
 
     <script src="js/layout.js?v=__BUILD__"></script>
-    <script>document.documentElement.dataset.theme = loadPref("theme", ["dark", "light"], "dark");</script>
+    <script>document.documentElement.dataset.theme = loadPref("theme", ["dark", "light"], "dark"); document.documentElement.dataset.style = loadPref("style", ["default", "retro"], "default");</script>
 </head>
 <body>
     <div class="preloader visually-hidden" aria-hidden="true">x</div>
@@ -47,6 +51,7 @@
             <a class="bar-btn" href="landing.html" data-cmd="gui">&gt;_ gui</a>
             <button id="lang-btn" aria-label="Change language">PT</button>
             <button id="theme-btn" aria-label="Change theme">◐</button>
+            <button id="style-btn" aria-label="Toggle retro look" title="retro">📺</button>
         </div>
     </header>
 
