@@ -99,6 +99,8 @@
     text-shadow: inherit;
 }
 :root[data-style="retro"] .statusbar button:hover { background: var(--text); color: var(--base); border-color: var(--text); text-shadow: none; }
+:root[data-style="retro"] .statusbar .icon-tv { filter: drop-shadow(0 0 3px var(--glow)); }
+:root[data-style="retro"] .statusbar button:hover .icon-tv { filter: none; }
 :root[data-style="retro"] .statusbar .window { font-family: var(--mono); font-size: 13px; }
 :root[data-style="retro"] .statusbar .window .idx { color: inherit; opacity: .6; }
 :root[data-style="retro"] .statusbar .bar-btn { padding: 0 10px; border-radius: 0; }

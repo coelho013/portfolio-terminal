@@ -79,6 +79,16 @@
     cursor: pointer;
 }
 .statusbar button:hover { color: var(--text); border-color: var(--surface1); }
+.statusbar .icon-tv {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -.2em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-linecap: square;
+    shape-rendering: crispEdges;
+}
 
 @media (max-width: 640px) {
     .statusbar { padding: 0 16px; }

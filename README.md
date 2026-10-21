@@ -12,7 +12,7 @@ You explore it like a Linux terminal, using commands such as `ls`, `cd` and `cat
 - **tmux-style status bar** shared by the terminal and the landing page, with shortcuts for `gui`, language and theme
 - **Bilingual** (English / Portuguese), switched at runtime with `lang en` / `lang pt`
 - **Light and dark themes** based on the Catppuccin palette (`theme dark` / `theme light`)
-- **Retro CRT look**: amber phosphor with scanlines, glow and a monitor bezel, toggled by the 📺 button or `style retro` / `style default`
+- **Retro CRT look**: amber phosphor with scanlines, glow and a monitor bezel, toggled by the TV button or `style retro` / `style default`
 - **Language, theme and look are shared** between the terminal and the landing page (stored in `localStorage`)
 - **Mobile friendly**: an adaptive layout with a command shortcut toolbar
 - **Tab autocompletion** and command history
