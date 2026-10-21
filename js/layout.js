@@ -109,6 +109,10 @@ function loadStyle() {
   savePref("style", fromUrl);
   params.delete("style");
   const query = params.toString();
-  history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
+  try {
+    history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
+  } catch (e) {
+    // file:// tem origem "null" e o Chrome recusa replaceState com URL
+  }
   return fromUrl;
 }

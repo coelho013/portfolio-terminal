@@ -53,7 +53,7 @@ document.querySelectorAll("[data-i18n]").forEach((el) => {
 let landingLang = loadPref("lang", ["pt", "en"], "en");
 let landingTheme = loadPref("theme", ["dark", "light"], "dark");
 let landingStyle = document.documentElement.dataset.style;
-const TERMINAL_LINKS = document.querySelectorAll('a[href="./"]');
+const TERMINAL_LINKS = document.querySelectorAll('a[href="index.html"]');
 
 function setLandingLang(lang) {
     const dict = lang === "en" ? LANDING_EN : LANDING_PT;
@@ -79,7 +79,7 @@ function setLandingStyle(style) {
     document.documentElement.dataset.style = style;
     landingStyle = style;
     savePref("style", style);
-    TERMINAL_LINKS.forEach((a) => a.setAttribute("href", "./?style=" + style));
+    TERMINAL_LINKS.forEach((a) => a.setAttribute("href", "index.html?style=" + style));
     setLandingTheme(landingTheme);
 }
 
