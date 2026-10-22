@@ -182,6 +182,18 @@ function startTerminal() {
         runCommand("theme " + (currentTheme === "dark" ? "light" : "dark"));
     });
 
+    $("#style-btn").on("click", function() {
+        runCommand("style " + (currentStyle === "retro" ? "default" : "retro"));
+    });
+
+    // voltando do gui pelo histórico, a página sai do bfcache com o tema/visual antigos
+    window.addEventListener("pageshow", function(e) {
+        if (!e.persisted) return;
+        applyStyle(loadPref("style", STYLES, currentStyle));
+        applyTheme(loadPref("theme", ["dark", "light"], currentTheme));
+        refreshPrompt(term);
+    });
+
     function setupMobileToolbar() {
         const mobileInput = document.getElementById('mobile-input');
         const mobileSend = document.getElementById('mobile-send');

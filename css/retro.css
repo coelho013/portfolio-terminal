@@ -1,0 +1,244 @@
+/* visual retrô (monitor CRT), ativado por data-style="retro" */
+
+/* fósforo âmbar */
+:root[data-style="retro"] {
+    --base: #0d0904;
+    --mantle: #140e06;
+    --surface0: #2b1e0c;
+    --surface1: #4d3615;
+    --overlay0: #9a7438;
+    --subtext: #d9a24a;
+    --text: #ffc266;
+    --green: #a8ff7a;
+    --blue: #ffdb8a;
+    --mauve: #ff9d3c;
+    --peach: #ff6a3d;
+    --glow: color-mix(in srgb, var(--text) 55%, transparent);
+    --display: "VT323", "JetBrains Mono", ui-monospace, monospace;
+    --sans: var(--mono);
+}
+
+/* papel de teletipo */
+:root[data-style="retro"][data-theme="light"] {
+    --base: #f2e9d6;
+    --mantle: #e9dec6;
+    --surface0: #d9cbad;
+    --surface1: #bfae8a;
+    --overlay0: #8a7656;
+    --subtext: #5c4a30;
+    --text: #2a1d0e;
+    --green: #2f6b2a;
+    --blue: #1d4f7a;
+    --mauve: #a8401a;
+    --peach: #b8501d;
+    --glow: transparent;
+}
+
+/* ---------- efeito CRT: scanlines + vinheta ---------- */
+:root[data-style="retro"]:not([data-theme="light"]) body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .55) 100%),
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, .28) 0 1px, transparent 1px 3px);
+    animation: flicker 6s steps(1) infinite;
+}
+
+:root[data-style="retro"][data-theme="light"] body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(90, 60, 20, .05) 0 1px, transparent 1px 4px);
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    47% { opacity: .92; }
+    48% { opacity: 1; }
+    83% { opacity: .95; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root[data-style="retro"] body::after { animation: none; }
+}
+
+/* ---------- status bar ---------- */
+:root[data-style="retro"] .statusbar {
+    background: var(--mantle);
+    backdrop-filter: none;
+    border-bottom: 2px solid var(--text);
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: .02em;
+    color: var(--text);
+    text-shadow: 0 0 6px var(--glow);
+}
+:root[data-style="retro"] .statusbar .session {
+    background: var(--text);
+    color: var(--base);
+    padding: 0 10px;
+    border-radius: 0;
+    text-shadow: none;
+    box-shadow: 0 0 12px var(--glow);
+}
+:root[data-style="retro"] .statusbar nav { gap: 2px; }
+:root[data-style="retro"] .statusbar nav a { padding: 0 8px; border-radius: 0; }
+:root[data-style="retro"] .statusbar nav a:hover,
+:root[data-style="retro"] .statusbar nav a.active { color: var(--base); background: var(--text); text-shadow: none; }
+:root[data-style="retro"] .statusbar nav a .idx { color: inherit; opacity: .6; }
+:root[data-style="retro"] .statusbar button {
+    color: var(--text);
+    border-color: var(--surface1);
+    border-radius: 0;
+    padding: 0 10px;
+    text-shadow: inherit;
+}
+:root[data-style="retro"] .statusbar button:hover { background: var(--text); color: var(--base); border-color: var(--text); text-shadow: none; }
+:root[data-style="retro"] .statusbar .icon-tv { filter: drop-shadow(0 0 3px var(--glow)); }
+:root[data-style="retro"] .statusbar button:hover .icon-tv { filter: none; }
+:root[data-style="retro"] .statusbar .window { font-family: var(--mono); font-size: 13px; }
+:root[data-style="retro"] .statusbar .window .idx { color: inherit; opacity: .6; }
+:root[data-style="retro"] .statusbar .bar-btn { padding: 0 10px; border-radius: 0; }
+:root[data-style="retro"] .statusbar .bar-btn:hover { text-shadow: none; }
+
+@media (max-width: 640px) {
+    :root[data-style="retro"] .statusbar { font-size: 20px; }
+}
+
+/* ---------- terminal ---------- */
+@media screen and (min-width: 769px) {
+    :root[data-style="retro"] body {
+        background:
+            radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--text) 6%, transparent), transparent 70%),
+            var(--mantle);
+    }
+
+    /* moldura do monitor */
+    :root[data-style="retro"] #terminal {
+        margin: 18px 22px 22px;
+        border: 1px solid var(--surface1);
+        border-radius: 18px;
+        box-shadow:
+            inset 0 0 60px rgba(0, 0, 0, .55),
+            inset 0 0 2px var(--glow),
+            0 0 0 6px var(--mantle),
+            0 0 0 7px var(--surface0),
+            0 20px 60px rgba(0, 0, 0, .45);
+    }
+
+    :root[data-style="retro"][data-theme="light"] #terminal {
+        box-shadow:
+            inset 0 0 40px rgba(90, 60, 20, .12),
+            0 0 0 6px var(--mantle),
+            0 0 0 7px var(--surface0),
+            0 14px 40px rgba(90, 60, 20, .18);
+    }
+}
+
+:root[data-style="retro"] .terminal {
+    padding: 20px 28px;
+    text-shadow: 0 0 5px var(--glow);
+}
+:root[data-style="retro"] .terminal .cmd-cursor-line,
+:root[data-style="retro"] .terminal .cmd .cursor { text-shadow: 0 0 8px var(--glow); }
+:root[data-style="retro"] .fetch-logo {
+    text-shadow: 0 0 8px color-mix(in srgb, var(--mauve) 60%, transparent), 0 0 22px color-mix(in srgb, var(--mauve) 25%, transparent);
+}
+:root[data-style="retro"][data-theme="light"] .fetch-logo { text-shadow: none; }
+:root[data-style="retro"] .toolbar-chips .chip { border-radius: 0; }
+:root[data-style="retro"] .toolbar-input {
+    border-color: var(--text);
+    border-radius: 0;
+    box-shadow: 0 0 10px var(--glow);
+}
+
+/* ---------- landing ---------- */
+:root[data-style="retro"] main,
+:root[data-style="retro"] footer { text-shadow: 0 0 4px var(--glow); }
+:root[data-style="retro"] main { font-size: 15px; line-height: 1.7; }
+:root[data-style="retro"] main .cursor { box-shadow: 0 0 8px var(--glow); }
+
+:root[data-style="retro"] h2 {
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0 0 28px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--glow);
+}
+:root[data-style="retro"] h2::before { content: "## "; color: var(--overlay0); }
+
+:root[data-style="retro"] .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(44px, 11vw, 96px);
+    line-height: .95;
+    margin: 0 0 18px;
+    min-height: .95em;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px var(--glow), 0 0 32px color-mix(in srgb, var(--text) 25%, transparent);
+}
+:root[data-style="retro"][data-theme="light"] .hero h1 { text-shadow: 3px 3px 0 var(--surface0); }
+:root[data-style="retro"] .hero .role {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--base);
+    background: var(--mauve);
+    padding: 1px 10px;
+    margin: 0 0 10px;
+    text-shadow: none;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--mauve) 45%, transparent);
+}
+
+:root[data-style="retro"] .btn {
+    border: 1px solid var(--text);
+    border-radius: 0;
+    transition: background .1s, color .1s, box-shadow .1s;
+}
+:root[data-style="retro"] .btn::before { content: "["; color: var(--overlay0); margin-right: -4px; }
+:root[data-style="retro"] .btn::after { content: "]"; color: var(--overlay0); margin-left: -4px; }
+:root[data-style="retro"] .btn:hover { background: var(--text); color: var(--base); text-shadow: none; box-shadow: 0 0 16px var(--glow); transform: none; }
+:root[data-style="retro"] .btn:hover .k,
+:root[data-style="retro"] .btn:hover::before,
+:root[data-style="retro"] .btn:hover::after { color: var(--base); }
+:root[data-style="retro"] .btn.primary { background: var(--green); border-color: var(--green); color: var(--base); text-shadow: none; }
+:root[data-style="retro"] .btn.primary::before,
+:root[data-style="retro"] .btn.primary::after { color: var(--base); opacity: .5; }
+:root[data-style="retro"] .btn.primary:hover { background: var(--green); filter: none; box-shadow: 0 0 18px color-mix(in srgb, var(--green) 55%, transparent); }
+
+:root[data-style="retro"] .job { border-left: 1px dashed var(--surface1); }
+:root[data-style="retro"] .job::before { border-radius: 0; }
+:root[data-style="retro"] .job.current::before { box-shadow: 0 0 10px var(--green); }
+:root[data-style="retro"] .job h3,
+:root[data-style="retro"] .project h3,
+:root[data-style="retro"] .card h3 { font-weight: 400; color: var(--blue); }
+:root[data-style="retro"] .job li::before,
+:root[data-style="retro"] .project li::before { content: ">"; }
+
+:root[data-style="retro"] .project {
+    border: 1px solid var(--surface1);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--surface0);
+}
+:root[data-style="retro"] .project:hover { border-color: var(--text); }
+
+:root[data-style="retro"] .tag {
+    padding: 2px 10px;
+    border: 1px solid var(--surface1);
+    border-radius: 0;
+    background: transparent;
+}
+:root[data-style="retro"] .tag:hover { background: var(--text); color: var(--base); text-shadow: none; }
+
+:root[data-style="retro"] .card { border: 1px dashed var(--surface1); border-radius: 0; }
+:root[data-style="retro"] .badge { border-radius: 0; }
+:root[data-style="retro"] .contact-mail { text-shadow: 0 0 10px color-mix(in srgb, var(--green) 50%, transparent); }
+:root[data-style="retro"] footer { border-top: 1px dashed var(--surface1); }

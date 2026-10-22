@@ -40,7 +40,10 @@ const LANDING_EN = {
     "foot": "prefer the terminal?"
 };
 
-const LANDING_THEME_BG = { dark: "#1e1e2e", light: "#fdf6e3" };
+const LANDING_THEME_BG = {
+    default: { dark: "#1e1e2e", light: "#fdf6e3" },
+    retro: { dark: "#0d0904", light: "#f2e9d6" }
+};
 
 const LANDING_PT = {};
 document.querySelectorAll("[data-i18n]").forEach((el) => {
@@ -49,6 +52,8 @@ document.querySelectorAll("[data-i18n]").forEach((el) => {
 
 let landingLang = loadPref("lang", ["pt", "en"], "en");
 let landingTheme = loadPref("theme", ["dark", "light"], "dark");
+let landingStyle = document.documentElement.dataset.style;
+const TERMINAL_LINKS = document.querySelectorAll('a[href="index.html"]');
 
 function setLandingLang(lang) {
     const dict = lang === "en" ? LANDING_EN : LANDING_PT;
@@ -65,13 +70,21 @@ function setLandingLang(lang) {
 function setLandingTheme(theme) {
     document.documentElement.dataset.theme = theme;
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", LANDING_THEME_BG[theme]);
+    if (themeColor) themeColor.setAttribute("content", LANDING_THEME_BG[landingStyle][theme]);
     landingTheme = theme;
     savePref("theme", theme);
 }
 
+function setLandingStyle(style) {
+    document.documentElement.dataset.style = style;
+    landingStyle = style;
+    savePref("style", style);
+    TERMINAL_LINKS.forEach((a) => a.setAttribute("href", "index.html?style=" + style));
+    setLandingTheme(landingTheme);
+}
+
 setLandingLang(landingLang);
-setLandingTheme(landingTheme);
+setLandingStyle(landingStyle);
 
 document.getElementById("lang-btn").addEventListener("click", () => {
     setLandingLang(landingLang === "pt" ? "en" : "pt");
@@ -79,6 +92,17 @@ document.getElementById("lang-btn").addEventListener("click", () => {
 
 document.getElementById("theme-btn").addEventListener("click", () => {
     setLandingTheme(landingTheme === "light" ? "dark" : "light");
+});
+
+document.getElementById("style-btn").addEventListener("click", () => {
+    setLandingStyle(landingStyle === "retro" ? "default" : "retro");
+});
+
+// voltando do terminal pelo histórico, a página sai do bfcache com o tema/visual antigos
+window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    landingTheme = loadPref("theme", ["dark", "light"], landingTheme);
+    setLandingStyle(loadPref("style", STYLES, landingStyle));
 });
 
 const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -1,5 +1,6 @@
 let currentPath = [];
 let currentTheme = loadPref("theme", ["dark", "light"], "dark");
+let currentStyle = document.documentElement.dataset.style;
 
 const THEMES = {
     dark: {
@@ -30,20 +31,53 @@ const THEMES = {
     }
 };
 
+const RETRO_THEMES = {
+    dark: {
+        base: "#0d0904",
+        text: "#ffc266",
+        green: "#a8ff7a",
+        blue: "#ffdb8a",
+        mauve: "#ff9d3c",
+        peach: "#ff6a3d",
+        teal: "#ffd27a",
+        surface0: "#2b1e0c",
+        overlay0: "#9a7438",
+        red: "#ff5b4a",
+        yellow: "#ffe08a"
+    },
+    light: {
+        base: "#f2e9d6",
+        text: "#2a1d0e",
+        green: "#2f6b2a",
+        blue: "#1d4f7a",
+        mauve: "#a8401a",
+        peach: "#b8501d",
+        teal: "#2d6a6a",
+        surface0: "#d9cbad",
+        overlay0: "#8a7656",
+        red: "#a3241a",
+        yellow: "#8a5a10"
+    }
+};
+
 function getThemeColors() {
-    return THEMES[currentTheme];
+    return (currentStyle === "retro" ? RETRO_THEMES : THEMES)[currentTheme];
 }
 
 function applyTheme(theme) {
-    const c = THEMES[theme];
-    if (!c) return;
+    if (!THEMES[theme]) return;
 
     document.documentElement.dataset.theme = theme;
+    currentTheme = theme;
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", c.base);
+    if (themeColor) themeColor.setAttribute("content", getThemeColors().base);
+}
 
-    currentTheme = theme;
+function applyStyle(style) {
+    document.documentElement.dataset.style = style;
+    currentStyle = style;
+    applyTheme(currentTheme);
 }
 
 function applyLangAttribute() {
@@ -106,6 +140,7 @@ const MESSAGES = {
             ...helpEntry("pwd", "Diretório atual"),
             ...helpEntry("lang <pt|en>", "Altera o idioma"),
             ...helpEntry("theme <dark|light>", "Altera o tema"),
+            ...helpEntry("style <default|retro>", "Altera o visual"),
             ...helpEntry("gui", "Abre a versão visual"),
             "",
             "Dica: 'cd ..' volta uma pasta",
@@ -123,7 +158,10 @@ const MESSAGES = {
         themeUsage: "Uso: Tema <dark|light>\nTema atual: ",
         themeChanged: (t) => `Tema alterado para: ${t}`,
         themeInvalid: "Tema inválido. Use: theme dark  ou  theme light",
-        guiStarting: "Iniciando interface gráfica..."
+        guiStarting: "Iniciando interface gráfica...",
+        styleUsage: "Uso: style <default|retro>\nVisual atual: ",
+        styleChanged: (s) => `Visual alterado para: ${s}`,
+        styleInvalid: "Visual inválido. Use: style default  ou  style retro"
     },
     en: {
         help: [
@@ -139,6 +177,7 @@ const MESSAGES = {
             ...helpEntry("pwd", "Current directory"),
             ...helpEntry("lang <pt|en>", "Change language"),
             ...helpEntry("theme <dark|light>", "Change theme"),
+            ...helpEntry("style <default|retro>", "Change the look"),
             ...helpEntry("gui", "Open the visual version"),
             "",
             "Tip: 'cd ..' goes back one folder",
@@ -156,7 +195,10 @@ const MESSAGES = {
         themeUsage: "Usage: theme <dark|light>\nCurrent theme: ",
         themeChanged: (t) => `Theme changed to: ${t}`,
         themeInvalid: "Invalid theme. Use: theme dark  or  theme light",
-        guiStarting: "Starting graphical interface..."
+        guiStarting: "Starting graphical interface...",
+        styleUsage: "Usage: style <default|retro>\nCurrent look: ",
+        styleChanged: (s) => `Look changed to: ${s}`,
+        styleInvalid: "Invalid look. Use: style default  or  style retro"
     }
 };
 
@@ -299,6 +341,24 @@ const COMMANDS = {
         }
     },
 
+    style: function(term, args) {
+        if (!args || args.length === 0) {
+            term.echo(msg().styleUsage + currentStyle);
+            return;
+        }
+
+        const style = args[0].toLowerCase();
+
+        if (style === "default" || style === "retro") {
+            applyStyle(style);
+            savePref("style", style);
+            refreshPrompt(term);
+            term.echo(msg().styleChanged(style));
+        } else {
+            term.error(msg().styleInvalid);
+        }
+    },
+
     gui: function(term) {
         const c = getThemeColors();
         const width = IS_SMALL ? 16 : 24;
@@ -318,7 +378,7 @@ const COMMANDS = {
             }
             term.echo(`[[;${c.green};][ OK \\]] ${msg().guiStarting}`);
             await delay(450);
-            window.location.href = "landing.html";
+            window.location.href = "landing.html?style=" + currentStyle;
         }
 
         launch();

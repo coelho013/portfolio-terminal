@@ -97,3 +97,22 @@ function savePref(key, value) {
     return;
   }
 }
+
+const STYLES = ["default", "retro"];
+
+// o visual vem pela URL (?style=) ao trocar entre terminal e gui, para não depender só do localStorage
+function loadStyle() {
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = params.get("style");
+  if (STYLES.indexOf(fromUrl) === -1) return loadPref("style", STYLES, "default");
+
+  savePref("style", fromUrl);
+  params.delete("style");
+  const query = params.toString();
+  try {
+    history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
+  } catch (e) {
+    // file:// tem origem "null" e o Chrome recusa replaceState com URL
+  }
+  return fromUrl;
+}
